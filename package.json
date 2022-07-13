@@ -1,0 +1,48 @@
+{
+  "name": "weabot",
+  "version": "1.0.0",
+  "description": "WhatsApp Bot Using Lib Baileys",
+  "main": "index.js",
+  "type": "commonjs",
+  "dependencies": {
+    "@adiwajshing/baileys": "github:adiwajshing/baileys",
+    "@adiwajshing/keyed-db": "^0.2.4",
+    "@hapi/boom": "^10.0.0",
+    "axios": "^0.27.2",
+    "chalk": "^4.1.2",
+    "file-type": "^16.5.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "form-data": "^4.0.0",
+    "fs": "^0.0.1-security",
+    "moment-timezone": "^0.5.34",
+    "ms": "^2.1.3",
+    "node-cron": "^3.0.1",
+    "node-webpmux": "^3.1.1",
+    "parse-ms": "^2.1.0",
+    "performance-now": "^2.1.0",
+    "pino": "^8.0.0",
+    "qrcode-terminal": "^0.12.0",
+    "request": "^2.88.2",
+    "supervisor": "^0.12.0"
+  },
+  "scripts": {
+    "start": "supervisor index.js",
+    "run": "supervisor -w lib,index.js,globle.js index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhwzein/weabot.git"
+  },
+  "keywords": [
+    "multi-devices",
+    "whatsapp-bot",
+    "zenzapis"
+  ],
+  "author": "zhwzein",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zhwzein/weabot/issues"
+  },
+  "homepage": "https://github.com/zhwzein/weabot#readme"
+}
