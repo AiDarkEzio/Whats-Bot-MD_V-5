@@ -1,0 +1,31 @@
+{
+  "name": "Whats Bot",
+  "description": "whatsapp md bot build with nodejs",
+  "repository": "https://github.com/AiDarkEzio/Whats-Bot-MD_V-5",
+  "logo": "https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-DPC.jpg",
+  "keywords": ["nodejs", "bot", "whatsapp bot", "whatsapp automation", "multi device"],
+    "env": {
+    "USER_NAME": 
+    {
+        "description": "Enter Your Name",
+        "value": "Subhadra Poshitha",
+        "required": false
+    },
+    "HEROKU_API_KEY": 
+    {
+        "description": "Enter your Security Key. {You Can Get It Wa.me/94761539856 send message and get",
+        "required": true
+    }
+  },
+  "buildpacks": [
+    {"url": "heroku/nodejs"},
+    {"url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"},
+    {"url": "https://github.com/yespark/heroku-imagemagick-buildpack"}
+  ],
+   "formation": {
+        "worker": {
+            "quantity": 1,
+            "size": "free"
+        }
+    }
+}

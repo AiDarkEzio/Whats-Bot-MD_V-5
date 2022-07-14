@@ -1,6 +1,6 @@
 {
-  "name": "weabot",
-  "version": "1.0.0",
+  "name": "whats-bot-md_v5",
+  "version": "1.0.1",
   "description": "WhatsApp Bot Using Lib Baileys",
   "main": "index.js",
   "type": "commonjs",
@@ -27,21 +27,21 @@
   },
   "scripts": {
     "start": "supervisor -w lib,index.js,globle.js index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zhwzein/weabot.git"
+    "url": "git+https://github.com/AiDarkEzio/Whats-Bot-MD_V-5.git"
   },
   "keywords": [
     "multi-devices",
     "whatsapp-bot",
     "zenzapis"
   ],
-  "author": "zhwzein",
+  "author": "Ai_Dark_Ezio",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/zhwzein/weabot/issues"
+    "url": "https://github.com/AiDarkEzio/Whats-Bot-MD_V-5/issues"
   },
-  "homepage": "https://github.com/zhwzein/weabot#readme"
+  "homepage": "https://github.com/AiDarkEzio/Whats-Bot-MD_V-5#readme"
 }
