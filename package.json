@@ -26,8 +26,7 @@
     "supervisor": "^0.12.0"
   },
   "scripts": {
-    "start": "supervisor index.js",
-    "run": "supervisor -w lib,index.js,globle.js index.js",
+    "start": "supervisor -w lib,index.js,globle.js index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

@@ -1,1 +1,18 @@
-[]
+[
+    {
+        "from": "120363042706902922@g.us",
+        "offline": false,
+        "antilink": false,
+        "badword": false,
+        "antidelete": false,
+        "detect": false,
+        "viewOnce": false,
+        "nsfw": false,
+        "leveling": false,
+        "welcome": {
+            "status": false,
+            "add": "Welcome To My Group",
+            "remove": "Leave From My Group"
+        }
+    }
+]

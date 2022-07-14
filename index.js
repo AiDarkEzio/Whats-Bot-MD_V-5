@@ -1,72 +1,179 @@
-const P = require ('pino')
-const { Boom } = require ('@hapi/boom')
-const { default: makeWASocket, delay, DisconnectReason, fetchLatestBaileysVersion, makeInMemoryStore, useMultiFileAuthState, useSingleFileAuthState,  jidNormalizedUser } = require ('@adiwajshing/baileys')
-const { serialize, WAConnection } = require ('./lib/simple')
-const messageHandler = require('./killua')
+const P = require("pino");
+const { Boom } = require("@hapi/boom");
+const {
+  default: makeWASocket,
+  delay,
+  DisconnectReason,
+  fetchLatestBaileysVersion,
+  makeInMemoryStore,
+  useMultiFileAuthState,
+  useSingleFileAuthState,
+  jidNormalizedUser,
+} = require("@adiwajshing/baileys");
+const { serialize, WAConnection } = require("./lib/simple");
+const messageHandler = require("./module");
 
-const store = makeInMemoryStore({ logger: P().child({ level: 'silent', stream: 'store' }) })
-store.readFromFile('./session/baileys_store_multi.json')
+const store = makeInMemoryStore({
+  logger: P().child({ level: "silent", stream: "store" }),
+});
+store.readFromFile("./session/baileys_store_multi.json");
 setInterval(() => {
-	store.writeToFile('./session/baileys_store_multi.json')
-}, 10000)
+  store.writeToFile("./session/baileys_store_multi.json");
+}, 10000);
 
-global.api = (name, path = '/', query = {}, apikeyqueryname) => (name in config.APIs ? config.APIs[name] : name) + path + (query || apikeyqueryname ? '?' + new URLSearchParams(Object.entries({ ...query, ...(apikeyqueryname ? { [apikeyqueryname]: config.APIs.apikey } : {}) })) : '')
+global.api = (name, path = "/", query = {}, apikeyqueryname) =>
+  (name in config.APIs ? config.APIs[name] : name) +
+  path +
+  (query || apikeyqueryname
+    ? "?" +
+      new URLSearchParams(
+        Object.entries({
+          ...query,
+          ...(apikeyqueryname ? { [apikeyqueryname]: config.APIs.apikey } : {}),
+        })
+      )
+    : "");
 
 // start a connection
-const connect = async() => {
-	const { state, saveCreds } = await useMultiFileAuthState('./session/baileys_auth_info')
-	const { version, isLatest } = await fetchLatestBaileysVersion()
-	console.log(`using WA v${version.join('.')}, isLatest: ${isLatest}`)
-	let connOptions = {
-        version,
-        logger: P({ level: 'silent' }),
-        printQRInTerminal: true,
-        auth: state
+const Whats_Bot_MD = async () => {
+  const { state, saveCreds } = await useMultiFileAuthState(
+    "./session/baileys_auth_info"
+  );
+  const { version, isLatest } = await fetchLatestBaileysVersion();
+  console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
+  let connOptions = {
+    version,
+    logger: P({ level: "silent" }),
+    printQRInTerminal: true,
+    auth: state,
+  };
+  const conn = new WAConnection(makeWASocket(connOptions));
+
+  store.bind(conn.ev);
+
+  conn.ev.on("chats.set", () => {
+    console.log("got chats", store.chats.all());
+  });
+
+  conn.ev.on("contacts.set", () => {
+    console.log("got contacts", Object.values(store.contacts));
+  });
+
+  conn.ev.on("messages.upsert", async (chatUpdate) => {
+    const msg = serialize(conn, chatUpdate.messages[0]);
+
+    if (!msg.message) return;
+    if (msg.key && msg.key.remoteJid == "status@broadcast") return;
+    if (config.options.autoRead)
+      await conn.sendReadReceipt(msg.key.remoteJid, msg.key.participant, [msg.key.id]);
+
+    messageHandler(conn, msg);
+  });
+
+  conn.ev.on("connection.update", async (update) => {
+    const { connection, lastDisconnect } = update;
+    if (connection === "close") {
+      let reason = new Boom(lastDisconnect?.error)?.output.statusCode;
+      if (reason === DisconnectReason.badSession) {
+        console.log(`Bad Session File, Please Delete Session and Scan Again`);
+        conn.logout();
+      } else if (reason === DisconnectReason.connectionClosed) {
+        console.log("Connection closed, reconnecting....");
+        Whats_Bot_MD();
+      } else if (reason === DisconnectReason.connectionLost) {
+        console.log("Connection Lost from Server, reconnecting...");
+        Whats_Bot_MD();
+      } else if (reason === DisconnectReason.connectionReplaced) {
+        console.log("Connection Replaced, Another New Session Opened, Please Close Current Session First");
+        conn.logout();
+      } else if (reason === DisconnectReason.loggedOut) {
+        console.log(`Device Logged Out, Please Scan Again And Run.`);
+        process.exit();
+      } else if (reason === DisconnectReason.restartRequired) {
+        console.log("Restart Required, Restarting...");
+        Whats_Bot_MD();
+      } else if (reason === DisconnectReason.timedOut) {
+        console.log("Connection TimedOut, Reconnecting...");
+        Whats_Bot_MD();
+      } else {
+        console.log("Connection closed. You are logged out.");
+        process.exit();
+      }
     }
-    const sock = new WAConnection(makeWASocket(connOptions))
+    console.log(`Connected... ${connection}`);
+  });
 
-    store.bind(sock.ev)
+  // listen for when the auth credentials is updated
+  conn.ev.on("creds.update", saveCreds);
 
-	sock.ev.on('chats.set', () => {
-		console.log('got chats', store.chats.all())
-	})
-	
-	sock.ev.on('contacts.set', () => {
-		console.log('got contacts', Object.values(store.contacts))
-	})
+  conn.ev.on("groups.update", async metadata => {
 
-	sock.ev.on('messages.upsert', async (chatUpdate) => {
-        const m = serialize(sock, chatUpdate.messages[0])
+	try {
+		dpGroup = await conn.profilePictureUrl(metadata[0].id , "image");
+	} catch {
+		dpGroup = "https://st4.depositphotos.com/5934840/31195/v/450/depositphotos_311951620-stock-illustration-group-of-business-people-avatar.jpg";
+	}
 
-        if (!m.message) return
-        if (m.key && m.key.remoteJid == "status@broadcast") return
+	let image = { url: dpGroup };
+	let footer = `Group Settings Change Message`;
 
-		if (config.options.autoRead) await sock.sendReadReceipt(m.key.remoteJid, m.key.participant, [m.key.id])
-        messageHandler(sock,  m)
-	})
+	if (metadata[0].announce == true) {
+		const buttons = [{ buttonId: "", buttonText: { displayText: "Closed" }, type: 1 }];
+		const buttonMessage = {
+			image,
+			caption: `「 Group Settings Changed 」\n\nThe Group Has Been Closed By Admin, Now Only Admin Can Send Messages !`,
+			footer,
+			buttons: buttons,
+			headerType: 4,
+		};
+		await conn.sendMessage(metadata[0].id, buttonMessage);
+	} else if (metadata[0].announce == false) {
+		const buttons = [{ buttonId: "", buttonText: { displayText: "Opend" }, type: 1 }];
+        const buttonMessage = {
+			image,
+			caption: `「 Group Settings Changed 」\n\nThe Group Has Been Opened By Admin, Now Participants Can Send Messages !`,
+			footer,
+			buttons: buttons,
+			headerType: 4,
+        };
+        await conn.sendMessage(metadata[0].id, buttonMessage);
+	} else if (metadata[0].restrict == true) {
+		const buttons = [{ buttonId: "", buttonText: { displayText: "Closed" }, type: 1 }];
+    	const buttonMessage = {
+			image,
+			caption: `「 Group Settings Changed 」\n\nGroup Info Has Been Restricted, Now Only Admin Can Edit Group Info !`,
+			footer,
+			buttons: buttons,
+			headerType: 4,
+    	};
+   		await conn.sendMessage(metadata[0].id, buttonMessage);
+	} else if (metadata[0].restrict == false) {
+		const buttons = [{ buttonId: "", buttonText: { displayText: "Opend" }, type: 1 }];
+    	const buttonMessage = {
+			image,
+			caption: `「 Group Settings Changed 」\n\nGroup Info Has Been Opened, Now Participants Can Edit Group Info !`,
+			footer,
+			buttons: buttons,
+			headerType: 4,
+		};
+		await conn.sendMessage(metadata[0].id, buttonMessage);
+	} else {
+		const buttons = [{ buttonId: "", buttonText: { displayText: "Edited" }, type: 1 }];
+    	const buttonMessage = {
+			image,
+			caption: `「 Group Settings Changed 」\n\nGroup Subject Has Been Changed To *${metadata[0].subject}*`,
+			footer,
+			buttons: buttons,
+			headerType: 4,
+		};
+		await conn.sendMessage(metadata[0].id, buttonMessage);
+	}
+  });
 
-	sock.ev.on('connection.update', async(update) => {
-		const { connection, lastDisconnect } = update
-		if(connection === 'close') {
-            let reason = new Boom(lastDisconnect?.error)?.output.statusCode
-			if (reason === DisconnectReason.badSession) { console.log(`Bad Session File, Please Delete Session and Scan Again`); sock.logout(); }
-            else if (reason === DisconnectReason.connectionClosed) { console.log("Connection closed, reconnecting...."); connect(); }
-            else if (reason === DisconnectReason.connectionLost) { console.log("Connection Lost from Server, reconnecting..."); connect(); }
-            else if (reason === DisconnectReason.connectionReplaced) { console.log("Connection Replaced, Another New Session Opened, Please Close Current Session First"); sock.logout(); }
-            else if (reason === DisconnectReason.loggedOut) { console.log(`Device Logged Out, Please Scan Again And Run.`); process.exit(); }
-            else if (reason === DisconnectReason.restartRequired) { console.log("Restart Required, Restarting..."); connect(); }
-            else if (reason === DisconnectReason.timedOut) { console.log("Connection TimedOut, Reconnecting..."); connect(); }
-			else {
-				console.log('Connection closed. You are logged out.'); process.exit(); 
-			}
-		}
-	})
+  if (conn.user && conn.user?.id)
+    conn.user.jid = jidNormalizedUser(conn.user?.id);
 
-	// listen for when the auth credentials is updated
-	sock.ev.on('creds.update', saveCreds)
-	if (sock.user && sock.user?.id) sock.user.jid = jidNormalizedUser(sock.user?.id)
+  return conn;
+};
 
-	return sock
-}
-
-connect()
+Whats_Bot_MD();
