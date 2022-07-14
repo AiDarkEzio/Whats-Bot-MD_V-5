@@ -159,8 +159,8 @@ module.exports = async (conn, msg) => {
         try {
             const whats = Message(conn, msg);
             event.commands.map(async (cmd) => {
-                if (cmd = command) {
-                    await cmd.function(whats, msg);
+                if ((cmd.pattern = command)) {
+                  await cmd.function(whats, msg);
                 };
             });           
         } catch (err) {
