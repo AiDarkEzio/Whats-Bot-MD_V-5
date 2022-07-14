@@ -13,7 +13,7 @@
     },
     "HEROKU_API_KEY": 
     {
-        "description": "Enter your Security Key. {You Can Get It Wa.me/94761539856 send message and get",
+        "description": "Enter your Security Key. {You Can Get It Wa.me/94761539856 send message and get}",
         "required": true
     }
   },

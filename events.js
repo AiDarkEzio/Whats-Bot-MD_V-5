@@ -1,11 +1,10 @@
 var Commands = [];
 
 function addCommand(info, func) {
-    // Basit bir fonksiyon, komut eklemek için.
     var types = ['photo', 'image', 'text', 'message'];
 
     var infos = {
-        pattern: info[pattern],
+        pattern: info['pattern'] === undefined ? '' : info['pattern'],
         fromMe: info['fromMe'] === undefined ? true : info['fromMe'], // Or Sudo
         onlyGroup: info['onlyGroup'] === undefined ? false : info['onlyGroup'],
         onlyPinned: info['onlyPinned'] === undefined ? false : info['onlyPinned'],
