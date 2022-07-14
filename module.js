@@ -256,10 +256,10 @@ module.exports = async (conn, msg) => {
         try {
             const whats = Message(conn, msg);
             event.commands.map(async (Command) => {
-                if ((Command = command)) await command.function(whats, msg);
+                if ((Command = command)) await Command.function(whats, msg);
             });           
-        } catch (error) {
-            conn.sendText(msg.from, 'Errr : ' + error, msg);
+        } catch (err) {
+            console.log(err);
         }
 
         switch (command) {

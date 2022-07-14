@@ -99,8 +99,10 @@ const Whats_Bot_MD = async () => {
         console.log("Connection closed. You are logged out.");
         process.exit();
       }
+    } else if (connection === "open") {
+      console.log(`\n 👩‍🦰 Login successful!▶\n`);
     }
-    console.log(`Connected... ${connection}`);
+    console.log('Connected...: ' + connection);    
   });
 
   // listen for when the auth credentials is updated
