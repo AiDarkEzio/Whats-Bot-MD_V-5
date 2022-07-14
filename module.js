@@ -15,6 +15,7 @@ const speed = require('performance-now')
 const request = require('request')
 const { color, fetchUrl, isUrl, getRandom, sleep, clockString } = require("./lib/function")
 const zenz = require('./lib/message')
+const prefa = ["", "!", ".", "🐦", "🐤", "🗿"];
 
 fs.readdirSync("./plugins").forEach((plugin) => {
     if (path.extname(plugin).toLowerCase() == ".js") {
@@ -44,8 +45,10 @@ module.exports = async (conn, msg) => {
         const isAntilink = group.cekAntilink(msg.from, _group)
         const isNsfw = group.cekNsfw(msg.from, _group)
 
-        const isCmd = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\\\©^]/.test(body) && conn.sendPresenceUpdate('composing', from)
-        const prefix = isCmd ? body[0] : ''
+        var prefix = prefa ? /^[°•π÷×¶∆£¢€¥®™+✓_=|~!?@#$%^&.©^]/gi.test(body) ? body.match(/^[°•π÷×¶∆£¢€¥®™+✓_=|~!?@#$%^&.©^]/gi)[0] : "" : prefa ?? '.'
+        const isCmd = body.startsWith(prefix);
+        const _isCmd = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\\\©^]/.test(body) && conn.sendPresenceUpdate('composing', from)
+        const _prefix = _isCmd ? body[0] : ''
         const command = isCmd ? body.slice(1).trim().split(' ').shift().toLowerCase() : ''
         const quoted = msg.quoted ? msg.quoted : msg
         const budy = (typeof msg.text == "string" ? msg.text : "")
@@ -69,107 +72,7 @@ module.exports = async (conn, msg) => {
         const mention = typeof(mentionByTag) == 'string' ? [mentionByTag] : mentionByTag
         mention != undefined ? mention.push(mentionByreply) : []
         const mentionUser = mention != undefined ? mention.filter(n => n) : [] 
-
-        if (asahotak.hasOwnProperty(msg.sender.split('@')[0]) && !isCmd) {
-            jawaban = asahotak[msg.sender.split('@')[0]]
-            if (budy.toLowerCase() == jawaban) {
-                await conn.sendMessage(msg.from, { text:`Selamat Jawaban ${budy} Benar 🎉\n\nIngin bermain lagi? Tekan Tombol Lanjut dibawah\n`, footer:'Entertainment\nPowered By https://zenzapis.xyz', buttons:[{ buttonId: '.asahotak', buttonText:{ displayText:'Lanjut'}, type:1 }], headerType:4 }, { quoted: msg })
-                delete asahotak[msg.sender.split('@')[0]]
-            } else msg.reply('*Jawaban Salah!*')
-        }
-        if (caklontong.hasOwnProperty(msg.sender.split('@')[0]) && !isCmd) {
-            jawaban = caklontong[msg.sender.split('@')[0]]
-            if (budy.toLowerCase() == jawaban) {
-                await conn.sendMessage(msg.from, { text:`Selamat Jawaban ${budy} Benar 🎉\n\nIngin bermain lagi? Tekan Tombol Lanjut dibawah\n`, footer:'Entertainment\nPowered By https://zenzapis.xyz', buttons:[{ buttonId: '.caklontong', buttonText:{ displayText:'Lanjut'}, type:1 }], headerType:4 }, { quoted: msg })
-                delete caklontong[msg.sender.split('@')[0]]
-            } else msg.reply('*Jawaban Salah!*')
-        }
-        if (family100.hasOwnProperty(msg.sender.split('@')[0]) && !isCmd) {
-            jawaban = family100[msg.sender.split('@')[0]]
-            result = Array.from(jawaban).find((v) => v === budy)
-            if (budy.toLowerCase() == result) {
-                await conn.sendMessage(msg.from, { text:`Benar Salah Satu Jawabanya Adalah ${budy} Selamat 🎉\n\nIngin bermain lagi? Tekan Tombol Lanjut dibawah\n`, footer:'Entertainment\nPowered By https://zenzapis.xyz', buttons:[{ buttonId: '.family100', buttonText:{ displayText:'Lanjut'}, type:1 }], headerType:4 }, { quoted: msg })
-                delete family100[msg.sender.split('@')[0]]
-            } else msg.reply('*Jawaban Salah!*')
-        }
-        if (siapakah.hasOwnProperty(msg.sender.split('@')[0]) && !isCmd) {
-            jawaban = siapakah[msg.sender.split('@')[0]]
-            if (budy.toLowerCase() == jawaban) {
-                await conn.sendMessage(msg.from, { text:`Selamat Jawaban ${budy} Benar 🎉\n\nIngin bermain lagi? Tekan Tombol Lanjut dibawah\n`, footer:'Entertainment\nPowered By https://zenzapis.xyz', buttons:[{ buttonId: '.siapakah', buttonText:{ displayText:'Lanjut'}, type:1 }], headerType:4 }, { quoted: msg })
-                delete siapakah[msg.sender.split('@')[0]]
-            } else msg.reply('*Jawaban Salah!*')
-        }
-        if (susunkata.hasOwnProperty(msg.sender.split('@')[0]) && !isCmd) {
-            jawaban = susunkata[msg.sender.split('@')[0]]
-            if (budy.toLowerCase() == jawaban) {
-                await conn.sendMessage(msg.from, { text:`Selamat Jawaban ${budy} Benar 🎉\n\nIngin bermain lagi? Tekan Tombol Lanjut dibawah\n`, footer:'Entertainment\nPowered By https://zenzapis.xyz', buttons:[{ buttonId: '.susunkata', buttonText:{ displayText:'Lanjut'}, type:1 }], headerType:4 }, { quoted: msg })
-                delete susunkata[msg.sender.split('@')[0]]
-            } else msg.reply('*Jawaban Salah!*')
-        }
-        if (tebakbendera.hasOwnProperty(msg.sender.split('@')[0]) && !isCmd) {
-            jawaban = tebakbendera[msg.sender.split('@')[0]]
-            if (budy.toLowerCase() == jawaban) {
-                await conn.sendMessage(msg.from, { text:`Selamat Jawaban ${budy} Benar 🎉\n\nIngin bermain lagi? Tekan Tombol Lanjut dibawah\n`, footer:'Entertainment\nPowered By https://zenzapis.xyz', buttons:[{ buttonId: '.tebakbendera', buttonText:{ displayText:'Lanjut'}, type:1 }], headerType:4 }, { quoted: msg })
-                delete tebakbendera[msg.sender.split('@')[0]]
-            } else msg.reply('*Jawaban Salah!*')
-        }
-        if (tebakgambar.hasOwnProperty(msg.sender.split('@')[0]) && !isCmd) {
-            jawaban = tebakgambar[msg.sender.split('@')[0]]
-            if (budy.toLowerCase() == jawaban) {
-                await conn.sendMessage(msg.from, { text:`Selamat Jawaban ${budy} Benar 🎉\n\nIngin bermain lagi? Tekan Tombol Lanjut dibawah\n`, footer:'Entertainment\nPowered By https://zenzapis.xyz', buttons:[{ buttonId: '.tebakgambar', buttonText:{ displayText:'Lanjut'}, type:1 }], headerType:4 }, { quoted: msg })
-                delete tebakgambar[msg.sender.split('@')[0]]
-            } else msg.reply('*Jawaban Salah!*')
-        }
-        if (tebakkabupaten.hasOwnProperty(msg.sender.split('@')[0]) && !isCmd) {
-            jawaban = tebakkabupaten[msg.sender.split('@')[0]]
-            if (budy.toLowerCase() == jawaban) {
-                await conn.sendMessage(msg.from, { text:`Selamat Jawaban ${budy} Benar 🎉\n\nIngin bermain lagi? Tekan Tombol Lanjut dibawah\n`, footer:'Entertainment\nPowered By https://zenzapis.xyz', buttons:[{ buttonId: '.tebakkabupaten', buttonText:{ displayText:'Lanjut'}, type:1 }], headerType:4 }, { quoted: msg })
-                delete tebakkabupaten[msg.sender.split('@')[0]]
-            } else msg.reply('*Jawaban Salah!*')
-        }
-        if (tebakkalimat.hasOwnProperty(msg.sender.split('@')[0]) && !isCmd) {
-            jawaban = tebakkalimat[msg.sender.split('@')[0]]
-            if (budy.toLowerCase() == jawaban) {
-                await conn.sendMessage(msg.from, { text:`Selamat Jawaban ${budy} Benar 🎉\n\nIngin bermain lagi? Tekan Tombol Lanjut dibawah\n`, footer:'Entertainment\nPowered By https://zenzapis.xyz', buttons:[{ buttonId: '.tebakkalimat', buttonText:{ displayText:'Lanjut'}, type:1 }], headerType:4 }, { quoted: msg })
-                delete tebakkalimat[msg.sender.split('@')[0]]
-            } else msg.reply('*Jawaban Salah!*')
-        }
-        if (tebakkata.hasOwnProperty(msg.sender.split('@')[0]) && !isCmd) {
-            jawaban = tebakkata[msg.sender.split('@')[0]]
-            if (budy.toLowerCase() == jawaban) {
-                await conn.sendMessage(msg.from, { text:`Selamat Jawaban ${budy} Benar 🎉\n\nIngin bermain lagi? Tekan Tombol Lanjut dibawah\n`, footer:'Entertainment\nPowered By https://zenzapis.xyz', buttons:[{ buttonId: '.tebakkata', buttonText:{ displayText:'Lanjut'}, type:1 }], headerType:4 }, { quoted: msg })
-                delete tebakkata[msg.sender.split('@')[0]]
-            } else msg.reply('*Jawaban Salah!*')
-        }
-        if (tebaklagu.hasOwnProperty(msg.sender.split('@')[0]) && !isCmd) {
-            jawaban = tebaklagu[msg.sender.split('@')[0]]
-            if (budy.toLowerCase() == jawaban) {
-                await conn.sendMessage(msg.from, { text:`Selamat Jawaban ${budy} Benar 🎉\n\nIngin bermain lagi? Tekan Tombol Lanjut dibawah\n`, footer:'Entertainment\nPowered By https://zenzapis.xyz', buttons:[{ buttonId: '.tebaklagu', buttonText:{ displayText:'Lanjut'}, type:1 }], headerType:4 }, { quoted: msg })
-                delete tebaklagu[msg.sender.split('@')[0]]
-            } else msg.reply('*Jawaban Salah!*')
-        }
-        if (tekateki.hasOwnProperty(msg.sender.split('@')[0]) && !isCmd) {
-            jawaban = tekateki[msg.sender.split('@')[0]]
-            if (budy.toLowerCase() == jawaban) {
-                await conn.sendMessage(msg.from, { text:`Selamat Jawaban ${budy} Benar 🎉\n\nIngin bermain lagi? Tekan Tombol Lanjut dibawah\n`, footer:'Entertainment\nPowered By https://zenzapis.xyz', buttons:[{ buttonId: '.tekateki', buttonText:{ displayText:'Lanjut'}, type:1 }], headerType:4 }, { quoted: msg })
-                delete tekateki[msg.sender.split('@')[0]]
-            } else msg.reply('*Jawaban Salah!*')
-        }
-        if (tebaklirik.hasOwnProperty(msg.sender.split('@')[0]) && !isCmd) {
-            jawaban = tebaklirik[msg.sender.split('@')[0]]
-            if (budy.toLowerCase() == jawaban) {
-                await conn.sendMessage(msg.from, { text:`Selamat Jawaban ${budy} Benar 🎉\n\nIngin bermain lagi? Tekan Tombol Lanjut dibawah\n`, footer:'Entertainment\nPowered By https://zenzapis.xyz', buttons:[{ buttonId: '.tebaklirik', buttonText:{ displayText:'Lanjut'}, type:1 }], headerType:4 }, { quoted: msg })
-                delete tebaklirik[msg.sender.split('@')[0]]
-            } else msg.reply('*Jawaban Salah!*')
-        }
-        if (tebaktebakan.hasOwnProperty(msg.sender.split('@')[0]) && !isCmd) {
-            jawaban = tebaktebakan[msg.sender.split('@')[0]]
-            if (budy.toLowerCase() == jawaban) {
-                await conn.sendMessage(msg.from, { text:`Selamat Jawaban ${budy} Benar 🎉\n\nIngin bermain lagi? Tekan Tombol Lanjut dibawah\n`, footer:'Entertainment\nPowered By https://zenzapis.xyz', buttons:[{ buttonId: '.tebaktebakan', buttonText:{ displayText:'Lanjut'}, type:1 }], headerType:4 }, { quoted: msg })
-                delete tebaktebakan[msg.sender.split('@')[0]]
-            } else msg.reply('*Jawaban Salah!*')
-        } 
-
+ 
         premium.expiredCheck(conn, msg, _premium)
         if (isGroup) group.addGroup(msg.from)
 
@@ -630,7 +533,7 @@ module.exports = async (conn, msg) => {
             break
 
             default:
-                if (isCmd) {
+                if (_isCmd) {
                     msg.reply('Command Not Found!')
                 }
             break
