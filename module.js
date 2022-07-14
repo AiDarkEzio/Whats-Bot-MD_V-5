@@ -158,8 +158,10 @@ module.exports = async (conn, msg) => {
 
         try {
             const whats = Message(conn, msg);
-            event.commands.map(async (Command) => {
-                if ((Command = command)) await Command.function(whats, msg);
+            event.commands.map(async (cmd) => {
+                if (cmd = command) {
+                    await cmd.function(whats, msg);
+                };
             });           
         } catch (err) {
             console.log(err);
