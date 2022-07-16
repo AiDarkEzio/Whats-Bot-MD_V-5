@@ -13,6 +13,7 @@
 const yts = require("yt-search");
 const ezio = require("../events");
 const lang = ezio.getString("scrapers");
+let { isUrl } = require("../lib/myfunc");
 let { yta, ytv } = require("../lib/yToMate");
 
 ezio.addCommand(
