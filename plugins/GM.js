@@ -1,11 +1,22 @@
-const event = require("../events");
+/* ═══════════════════════════════════════════════════════ //
+=> If you want to recode, reupload,
+=> or copy the codes/script,
+=> pls give credit,
+=> no credit? i will take action immediately.
+==> Copyright (C) 2022 Dark_Ezio.
+==> Licensed under the  MIT License;
+===> you may not use this file except in compliance with the License.
+=> Thank you to Lord Buddha, Family and Myself.
+=> Whats Bot - Dark_Ezio.
+// ════════════════════════════ */
+
+const ezio = require("../events");
 const GM = "it sends good morning message";
 const GN = "it sends Night message";
 
-event.addCommand(
-  { pattern: ["gm"], onlyfromMe: true, deleteCommand: true, desc: GM },
+ezio.addCommand(
+  { pattern: ["gm"], desc: GM, sucReact: '💖' },
   async (message, client) => {
-
     var r_text = new Array();
 
     r_text[0] = "❀🍃Good❀ ❀morning❀🥰❀ ";
@@ -18,16 +29,16 @@ event.addCommand(
 
     const i = Math.floor(7 * Math.random());
 
-    client.sendMessage(
+    await client.sendMessage(
       message.client.jid,
-      { text: r_text[i] + message.client.name},
+      { text: r_text[i] + message.client.name },
       { quoted: message }
     );
   }
 );
 
-event.addCommand(
-  { pattern: ["gn"], onlyfromMe: true, deleteCommand: true, desc: GN },
+ezio.addCommand(
+  { pattern: ["gn"], desc: GN, sucReact: "💖" },
   async (message, client) => {
     var r_text = new Array();
 
@@ -39,7 +50,7 @@ event.addCommand(
 
     const i = Math.floor(5 * Math.random());
 
-    client.sendMessage(
+    await client.sendMessage(
       message.client.jid,
       { text: r_text[i] + message.client.name },
       { quoted: message }

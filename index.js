@@ -14,8 +14,7 @@ const {
 } = require("@adiwajshing/baileys");
 const { serialize, WAConnection } = require("./lib/simple");
 const event = require('./events')
-const messageHandler = require("./module");
-const { prefa } = require("./global");
+const messageHandler = require('./module')
 
 const store = makeInMemoryStore({
   logger: P().child({ level: "silent", stream: "store" }),
@@ -166,17 +165,33 @@ const Whats_Bot_MD = async () => {
     }
 
     require('./lib/main')(msg)
-    
-    event.commands.map(async (command) => {
-      for (let i in command.pattern) {
-        if (command.pattern[i] == msg.forPattern.command) {
-          await command.function(msg, conn);
-        };
-      };
-    });
 
-    // messageHandler(conn, msg);
+    try {
+      event.commands.map(async (command) => {
+        for (let i in command.pattern) {
+          if (command.pattern[i] == msg.forPattern.command) {
+            await conn.sendPresenceUpdate("composing", msg.client.jid);
+            await conn.sendReact(msg.client.jid, event.reactArry('INFO'), msg.key);
+            await command.function(msg, conn);
+            await conn.sendReact(msg.client.jid, command.sucReact, msg.key);
+            await conn.sendPresenceUpdate("available", msg.client.jid);
+          };
+        };
+      });
+    } catch (error) {
+      await conn.sendReact(msg.client.jid, event.reactArry("ERROR"), msg.key);
+      return await sock.sendMessage(msg.client.jid, { text: event.errorMessage(error), contextInfo: { forwardingScore: 2, isForwarded: true } }, { quoted: msg })
+    }
+    
   });
+
+  setInterval(async () => {
+    const get_localized_date = { weekday: "long", year: "numeric", month: "long", day: "numeric", };
+    var utch = new Date().toLocaleDateString('EN', get_localized_date);
+    var ov_time = new Date().toLocaleString("LK", { timeZone: "Asia/Colombo" }).split(" ")[1];
+    const biography = "📅 " + utch + "\n⌚ " + ov_time + "\n\n⏱ Auto Bio B... 🚀powered By Whats Bot";
+    await conn.setStatus(biography);
+  }, 7890);
 
   if (conn.user && conn.user?.id)
     conn.user.jid = jidNormalizedUser(conn.user?.id);
