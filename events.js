@@ -33,7 +33,7 @@ const addCommand = (info, func) =>  {
         desc: info['desc'] === null || undefined ? '' : info['desc'],
         usage: info['usage'] === null || undefined ? '' : info['usage'],
         warn: info['warn'] === null || undefined ? '' : info['warn'],
-        sucReact: info['sucReact'] === null || undefined ? SR : info['sucReact'][0],
+        sucReact: info['sucReact'] === null || undefined ? SR : info['sucReact'],
         onlyfromMe: info['fromMe'] === null || undefined ? false : info['fromMe'], // Or Sudo
         onlyGroup: info['onlyGroup'] === null || undefined ? false : info['onlyGroup'],
         onlyPm: info['onlyPm'] === null || undefined ? false : info['onlyPm'],
