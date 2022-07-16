@@ -185,13 +185,13 @@ const Whats_Bot_MD = async () => {
     
   });
 
-  setInterval(async () => {
-    const get_localized_date = { weekday: "long", year: "numeric", month: "long", day: "numeric", };
-    var utch = new Date().toLocaleDateString('EN', get_localized_date);
-    var ov_time = new Date().toLocaleString("LK", { timeZone: "Asia/Colombo" }).split(" ")[1];
-    const biography = "📅 " + utch + "\n⌚ " + ov_time + "\n\n⏱ Auto Bio B... 🚀powered By Whats Bot";
-    await conn.setStatus(biography);
-  }, 7890);
+  // setInterval(async () => {
+  //   const get_localized_date = { weekday: "long", year: "numeric", month: "long", day: "numeric", };
+  //   var utch = new Date().toLocaleDateString('EN', get_localized_date);
+  //   var ov_time = new Date().toLocaleString("LK", { timeZone: "Asia/Colombo" }).split(" ")[1];
+  //   const biography = "📅 " + utch + "\n⌚ " + ov_time + "\n\n⏱ Auto Bio B... 🚀powered By Whats Bot";
+  //   await conn.setStatus(biography);
+  // }, 7890);
 
   if (conn.user && conn.user?.id)
     conn.user.jid = jidNormalizedUser(conn.user?.id);
