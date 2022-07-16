@@ -1,40 +1,49 @@
+const fs = require('fs');
+
 var Commands = [];
 
-function addCommand(info, func) {
-    var types = ['photo', 'image', 'text', 'message'];
-
+const addCommand = (info, func) =>  {
     var infos = {
-        pattern: info['pattern'] === undefined ? '' : info['pattern'],
-        fromMe: info['fromMe'] === undefined ? true : info['fromMe'], // Or Sudo
-        onlyGroup: info['onlyGroup'] === undefined ? false : info['onlyGroup'],
-        onlyPinned: info['onlyPinned'] === undefined ? false : info['onlyPinned'],
-        onlyPm: info['onlyPm'] === undefined ? false : info['onlyPm'],
-        deleteCommand: info['deleteCommand'] === undefined ? true : info['deleteCommand'],
-        desc: info['desc'] === undefined ? '' : info['desc'],
-        usage: info['usage'] === undefined ? '' : info['usage'],
-        dontAddCommandList: info['dontAddCommandList'] === undefined ? false : info['dontAddCommandList'],
-        warn: info['warn'] === undefined ? '' : info['warn'],
+        pattern: info['pattern'] === null || undefined ? [] : info['pattern'],
+        desc: info['desc'] === null || undefined ? '' : info['desc'],
+        usage: info['usage'] === null || undefined ? '' : info['usage'],
+        warn: info['warn'] === null || undefined ? '' : info['warn'],
+        onlyfromMe: info['fromMe'] === null || undefined ? false : info['fromMe'], // Or Sudo
+        onlyGroup: info['onlyGroup'] === null || undefined ? false : info['onlyGroup'],
+        onlyPm: info['onlyPm'] === null || undefined ? false : info['onlyPm'],
+        deleteCommand: info['deleteCommand'] === null || undefined ? false : info['deleteCommand'],
+        AddCommandList: info['dontAddCommandList'] === null || undefined ? true : info['dontAddCommandList'],
         function: func
     };
-
-    // if (info['on'] === undefined && info['pattern'] === undefined) {
-    //     infos.on = 'message';
-    //     infos.fromMe = false;
-    // } else if (info['on'] !== undefined && types.includes(info['on'])) {
-    //     infos.on = info['on'];
-
-    //     if (info['pattern'] !== undefined) {
-    //         infos.pattern = new RegExp((info['handler'] === undefined || info['handler'] === true ? config.HANDLERS : '') + info.pattern, (info['flags'] !== undefined ? info['flags'] : ''));
-    //     }
-    // } else {
-    //     infos.pattern = new RegExp((info['handler'] === undefined || info['handler'] === true ? config.HANDLERS : '') + info.pattern, (info['flags'] !== undefined ? info['flags'] : ''));
-    // }
-
     Commands.push(infos);
     return infos;
+};
+
+const jsonConfig = JSON.parse(fs.readFileSync("./config.json"));
+
+var json = JSON.parse(fs.readFileSync("./database/" + "EN" + ".json"));
+
+function getString(file) {
+  return json['STRINGS'][file];
+}
+
+function successfullMessage(msg) {
+  return "👩‍🦰 *Successful*:  ```" + msg + "```";
+}
+function errorMessage(msg) {
+  return "🚀 *Error*:  ```" + msg + "```";
+}
+function infoMessage(msg) {
+  return "🤖 *Info*:  ```" + msg + "```";
 }
 
 module.exports = {
+    successfullMessage: successfullMessage,
+    errorMessage: errorMessage,
+    infoMessage: infoMessage,
     addCommand: addCommand,
-    commands: Commands
-}
+    jsonConfig,jsonConfig,
+    getString: getString,
+    commands: Commands,
+    language: json,
+};

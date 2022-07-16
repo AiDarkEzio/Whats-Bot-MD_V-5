@@ -49,3 +49,7 @@ global.mess = (type, m) => {
     }[type]
     if (msg) return m.reply(msg, m.from, { quoted: m })
 }
+
+const prefa = ["", "!", ".", "🐦", "🐤", "🗿"];
+
+module.exports = {prefa}

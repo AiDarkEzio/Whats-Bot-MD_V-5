@@ -6,17 +6,17 @@
     "options": {
       "autoRead": true,
       "self": false,
-      "limitCount": 20,
-      "limitGame": 20
+      "limitCount": 25,
+      "limitGame": 30
     },
     "exif": {
       "packname": "zenzapis",
-      "author": "https://zenzapis.xyz"
+      "author": "Dark_Ezio"
     },
     "owner": [
       "94761896648",
       "94761539856"
     ],
-    "timezone": "Asia/Jakarta",
-    "footer": "Powered by https://zenzapis.xyz"
+    "timezone": "Asia/Colombo",
+    "footer": "©›Dark_Ezio"
 }

@@ -14,5 +14,53 @@
             "add": "Welcome To My Group",
             "remove": "Leave From My Group"
         }
+    },
+    {
+        "from": "94779529221-1630473447@g.us",
+        "offline": false,
+        "antilink": false,
+        "badword": false,
+        "antidelete": false,
+        "detect": false,
+        "viewOnce": false,
+        "nsfw": false,
+        "leveling": false,
+        "welcome": {
+            "status": false,
+            "add": "Welcome To My Group",
+            "remove": "Leave From My Group"
+        }
+    },
+    {
+        "from": "94781564565-1624580420@g.us",
+        "offline": false,
+        "antilink": false,
+        "badword": false,
+        "antidelete": false,
+        "detect": false,
+        "viewOnce": false,
+        "nsfw": false,
+        "leveling": false,
+        "welcome": {
+            "status": false,
+            "add": "Welcome To My Group",
+            "remove": "Leave From My Group"
+        }
+    },
+    {
+        "from": "94757534153-1620882073@g.us",
+        "offline": false,
+        "antilink": false,
+        "badword": false,
+        "antidelete": false,
+        "detect": false,
+        "viewOnce": false,
+        "nsfw": false,
+        "leveling": false,
+        "welcome": {
+            "status": false,
+            "add": "Welcome To My Group",
+            "remove": "Leave From My Group"
+        }
     }
 ]

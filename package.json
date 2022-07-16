@@ -27,7 +27,7 @@
   },
   "scripts": {
     "start": "supervisor -w lib,index.js,globle.js index.js",
-    "test": "node test.js"
+    "test": "node index.js"
   },
   "repository": {
     "type": "git",
