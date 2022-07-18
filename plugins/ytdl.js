@@ -74,7 +74,7 @@ ezio.addCommand(
       },
       { quoted: message }
     );
-    await client.sendReact(message.client.jid, "🎞", audio.key);
+    await client.sendReact(message.client.jid, "🎧", audio.key);
     global.catchError = false;
   }
   

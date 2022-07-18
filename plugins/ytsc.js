@@ -78,6 +78,7 @@ ezio.addCommand(
 
     await client.sendMessage(message.client.jid, buttonMessage, {
       quoted: message,
+      detectLinks: true,
     });
   }
 );
@@ -146,6 +147,7 @@ ezio.addCommand(
 
     await client.sendMessage(message.client.jid, buttonMessage, {
       quoted: message,
+      detectLinks: true,
     });
     global.catchError = false;
   }

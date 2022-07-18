@@ -26,7 +26,7 @@ function infoMessage(msg) {
   return "🤖 *Info*:  ```" + msg + "```";
 }
 
-// ["search", "all", "downloade", "chat", "system", 'fun', '18+', 'owner',];
+// ["search", "all", "downloade", "chat", "system", 'fun', '18+', 'owner', 'create',  ];
 
 const addCommand = (info, func) =>  {
   // const SR = reactArry("SUCCESS");

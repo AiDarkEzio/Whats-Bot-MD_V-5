@@ -95,8 +95,11 @@ ezio.addCommand(
 
         await client.sendMessage(
           message.client.jid,
-          { text: msg + "\n" + ezio.jsonConfig.footer },
-          { quoted: message }
+          {
+            image: { url: avatar_url },
+            caption: msg + "\n" + ezio.jsonConfig.footer,
+          },
+          { quoted: message, detectLinks: true }
         );
         await client.sendMessage(message.client.jid, { delete: resp.key });
         global.catchError = false;

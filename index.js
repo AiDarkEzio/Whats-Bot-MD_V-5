@@ -179,8 +179,7 @@ const Whats_Bot_MD = async () => {
         };
       });
     } catch (error) {
-      await conn.sendReact(msg.client.jid, event.reactArry("ERROR"), msg.key);
-      return await sock.sendMessage(msg.client.jid, { text: event.errorMessage(error), contextInfo: { forwardingScore: 2, isForwarded: true } }, { quoted: msg })
+      return await conn.sendErrorMessage(msg.client.jid, error, msg.key, msg);
     }
     
   });
@@ -191,7 +190,6 @@ const Whats_Bot_MD = async () => {
     var ov_time = new Date().toLocaleString("LK", { timeZone: "Asia/Colombo" }).split(" ")[1];
     const biography = "📅 " + utch + "\n⌚ " + ov_time + "\n\n⏱ Auto Bio B... 🚀powered By Whats Bot";
     await conn.updateProfileStatus(biography);
-    // await conn.setStatus(biography);
   }, 1000*60);
 
   if (conn.user && conn.user?.id)
