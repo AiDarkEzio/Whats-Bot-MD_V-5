@@ -7,7 +7,7 @@ function getString(file) {
   return json['STRINGS'][file];
 };
 
-const reactArry = (text) => {
+const reactArry = async (text) => {
   const reactArry = getString("react");
   const react =  reactArry[text];
   let picak = react[Math.floor(Math.random() * react.length)];
@@ -26,18 +26,21 @@ function infoMessage(msg) {
   return "🤖 *Info*:  ```" + msg + "```";
 }
 
+// ["search", "all", "downloade", "chat", "system", 'fun', '18+', 'owner',];
+
 const addCommand = (info, func) =>  {
-  const SR = reactArry("SUCCESS");
+  // const SR = reactArry("SUCCESS");
     var infos = {
         pattern: info['pattern'] === null || undefined ? [] : info['pattern'],
         desc: info['desc'] === null || undefined ? '' : info['desc'],
         usage: info['usage'] === null || undefined ? '' : info['usage'],
         warn: info['warn'] === null || undefined ? '' : info['warn'],
-        sucReact: info['sucReact'] === null || undefined ? SR : info['sucReact'],
+        sucReact: info['sucReact'] === null || undefined ? '💗' : info['sucReact'],
         onlyfromMe: info['fromMe'] === null || undefined ? false : info['fromMe'], // Or Sudo
         onlyGroup: info['onlyGroup'] === null || undefined ? false : info['onlyGroup'],
         onlyPm: info['onlyPm'] === null || undefined ? false : info['onlyPm'],
         deleteCommand: info['deleteCommand'] === null || undefined ? false : info['deleteCommand'],
+        category: info['category'] === null || undefined ? ['all'] : info['category'],
         AddCommandList: info['dontAddCommandList'] === null || undefined ? true : info['dontAddCommandList'],
         function: func
     };

@@ -17,34 +17,42 @@ let { isUrl } = require("../lib/myfunc");
 let { yta, ytv } = require("../lib/yToMate");
 
 ezio.addCommand(
-  { pattern: ["ytmp3", "getmusic", "ytaudio"], desc: lang.SONG_DESC },
+  {
+    pattern: ["ytmp3", "getmusic", "ytaudio"],
+    desc: lang.SONG_DESC,
+    sucReact: "📥",
+    category: ["downloade", "all"],
+  },
   async (message, client) => {
-    if (!message.forPattern.text)
-      return await client.sendMessage(
+
+    if (!message.forPattern.text) {
+      global.catchError = true;
+      return await client.sendErrorMessage(
         message.client.jid,
-        {
-          text: ezio.errorMessage(
-            `Example : ${
-              message.forPattern.prefix + message.forPattern.command
-            } https://youtube.com/watch?v=PtFMh6Tccag%27 128kbps`
-          ),
-        },
-        { quoted: message }
+        `Example : ${
+          message.forPattern.prefix + message.forPattern.command
+        } https://youtube.com/watch?v=PtFMh6Tccag%27 128kbps`,
+        message.key,
+        message
       );
+    }
 
     let quality = message.forPattern.args[1]
       ? message.forPattern.args[1]
       : "320kbps";
 
     let media = await yta(message.forPattern.text, quality);
-    if (media.filesize >= 999999)
-      return await client.sendMessage(
+    if (media.filesize >= 999999) { 
+      global.catchError = true;
+      return await client.sendErrorMessage(
         message.client.jid,
-        { text: "File Over Limit " + util.format(media) },
-        { quoted: message }
+        "File Over Limit " + util.format(media),
+        message.key,
+        message
       );
+    }
 
-    client.sendImage(
+    await client.sendImage(
       message.client.jid,
       media.thumb,
       `♻ Title : ${media.title}\n♻ File Size : ${
@@ -57,7 +65,7 @@ ezio.addCommand(
       message
     );
 
-    client.sendMessage(
+    const audio = await client.sendMessage(
       message.client.jid,
       {
         audio: { url: media.dl_link },
@@ -66,34 +74,48 @@ ezio.addCommand(
       },
       { quoted: message }
     );
+    await client.sendReact(message.client.jid, "🎞", audio.key);
+    global.catchError = false;
   }
+  
 );
 
 ezio.addCommand(
-  { pattern: ["ytmp4", "getvideo", "ytvideo"], desc: lang.VIDEO_DESC },
+  {
+    pattern: ["ytmp4", "getvideo", "ytvideo"],
+    desc: lang.VIDEO_DESC,
+    sucReact: "📥",
+    category: ["downloade", "all"],
+  },
   async (message, client) => {
-    if (!message.forPattern.text)
-      return await client.sendMessage(
+    if (!message.forPattern.text) {
+      global.catchError = true;
+      return await client.sendErrorMessage(
         message.client.jid,
-        {
-          text: ezio.errorMessage(
-            `Example : ${
-              message.forPattern.prefix + message.forPattern.command
-            } https://youtube.com/watch?v=PtFMh6Tccag%27 360p`
-          ),
-        },
-        { quoted: message }
+        `Example : ${
+          message.forPattern.prefix + message.forPattern.command
+        } https://youtube.com/watch?v=PtFMh6Tccag%27 360p`,
+        message.key,
+        message
       );
+    }
 
     let quality = message.forPattern.args[1]
       ? message.forPattern.args[1]
       : "360p";
 
     let media = await ytv(message.forPattern.text, quality);
-    if (media.filesize >= 999999)
-      return reply("File Over Limit " + util.format(media));
+    if (media.filesize >= 999999) {
+      global.catchError = true;
+      return await client.sendErrorMessage(
+        message.client.jid,
+        "File Over Limit " + util.format(media),
+        message.key,
+        message
+      );
+    }
 
-    client.sendMessage(
+    const video = await client.sendMessage(
       message.client.jid,
       {
         video: { url: media.dl_link },
@@ -101,11 +123,13 @@ ezio.addCommand(
         fileName: `${media.title}.mp4`,
         caption: `♻ Title : ${media.title}\n♻ File Size : ${
           media.filesizeF
-        }\n♻ Url : ${isUrl(text)}\n♻ Ext : MP3\n♻ Resolution : ${
+        }\n♻ Url : ${isUrl(text)}\n♻ Ext : MP4\n♻ Resolution : ${
           message.forPattern.args[1] || "360p"
         }`,
       },
       { quoted: message }
     );
+    await client.sendReact(message.client.jid, '🎞', video.key);
+    global.catchError = false;
   }
 );

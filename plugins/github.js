@@ -15,18 +15,25 @@ const lang = ezio.getString("github");
 const axios = require("axios");
 
 ezio.addCommand(
-  { pattern: ["github"], desc: lang.GITHUB_DESC, sucReact: '💻' },
+  {
+    pattern: ["github"],
+    desc: lang.GITHUB_DESC,
+    sucReact: "💻",
+    category: ["search", 'all'],
+  },
   async (message, client) => {
     const pname = message.forPattern.text;
 
-    if (!pname)
+    if (!pname) {
+      global.catchError = true;
       return await client.sendMessage(
         message.client.jid,
         { text: ezio.errorMessage(lang.REPLY) },
         { quoted: message }
       );
+    }
 
-    await client.sendMessage(
+    const resp = await client.sendMessage(
       message.client.jid,
       { text: ezio.infoMessage(lang.LOADING) },
       { quoted: message }
@@ -91,15 +98,18 @@ ezio.addCommand(
           { text: msg + "\n" + ezio.jsonConfig.footer },
           { quoted: message }
         );
+        await client.sendMessage(message.client.jid, { delete: resp.key });
+        global.catchError = false;
       })
-      .catch(
-        async (err) =>
-          await client.sendMessage(
+      .catch(async (err) => {
+        (global.catchError = true),
+          await client.sendErrorMessage(
             message.client.jid,
-            { text: ezio.errorMessage(lang.NOT + "\n\n" + err) },
-            { quoted: message }
-          )
-      );
+            ezio.errorMessage(lang.NOT + "\n\n" + err),
+            message.key,
+            message
+          );
+      });
   }
 );
 

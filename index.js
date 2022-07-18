@@ -173,7 +173,7 @@ const Whats_Bot_MD = async () => {
             await conn.sendPresenceUpdate("composing", msg.client.jid);
             await conn.sendReact(msg.client.jid, event.reactArry('INFO'), msg.key);
             await command.function(msg, conn);
-            await conn.sendReact(msg.client.jid, command.sucReact, msg.key);
+            global.catchError ? '' : await conn.sendReact(msg.client.jid, command.sucReact, msg.key);
             await conn.sendPresenceUpdate("available", msg.client.jid);
           };
         };
@@ -185,13 +185,14 @@ const Whats_Bot_MD = async () => {
     
   });
 
-  // setInterval(async () => {
-  //   const get_localized_date = { weekday: "long", year: "numeric", month: "long", day: "numeric", };
-  //   var utch = new Date().toLocaleDateString('EN', get_localized_date);
-  //   var ov_time = new Date().toLocaleString("LK", { timeZone: "Asia/Colombo" }).split(" ")[1];
-  //   const biography = "📅 " + utch + "\n⌚ " + ov_time + "\n\n⏱ Auto Bio B... 🚀powered By Whats Bot";
-  //   await conn.setStatus(biography);
-  // }, 7890);
+  setInterval(async () => {
+    const get_localized_date = { weekday: "long", year: "numeric", month: "long", day: "numeric", };
+    var utch = new Date().toLocaleDateString('EN', get_localized_date);
+    var ov_time = new Date().toLocaleString("LK", { timeZone: "Asia/Colombo" }).split(" ")[1];
+    const biography = "📅 " + utch + "\n⌚ " + ov_time + "\n\n⏱ Auto Bio B... 🚀powered By Whats Bot";
+    await conn.updateProfileStatus(biography);
+    // await conn.setStatus(biography);
+  }, 1000*60);
 
   if (conn.user && conn.user?.id)
     conn.user.jid = jidNormalizedUser(conn.user?.id);

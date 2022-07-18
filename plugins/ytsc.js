@@ -15,14 +15,22 @@ const ezio = require("../events");
 const lang = ezio.getString("scrapers");
 
 ezio.addCommand(
-  { pattern: ["play", "song", "ytplay"], desc: lang.SONG_DESC, sucReact: "🎧" },
+  {
+    pattern: ["play", "song", "ytplay"],
+    desc: lang.SONG_DESC,
+    sucReact: "🔎",
+    category: ["search", "all"],
+  },
   async (message, client) => {
-    if (!message.forPattern.text)
-      return await client.sendMessage(
+    if (!message.forPattern.text) {
+      global.catchError = true;
+      return await client.sendErrorMessage(
         message.client.jid,
-        { text: ezio.errorMessage(lang.NEED_TEXT_SONG) },
-        { quoted: message }
+        lang.NEED_TEXT_SONG,
+        message.key,
+        message
       );
+    }
 
     const results = await yts(message.forPattern.text);
 
@@ -78,15 +86,19 @@ ezio.addCommand(
   {
     pattern: ["rplay", "rsong", "rytplay"],
     desc: lang.SONG_DESC,
-    sucReact: "🎧",
+    sucReact: "🔎",
+    category: ["search", "all"],
   },
   async (message, client) => {
-    if (!message.forPattern.text)
-      return await client.sendMessage(
+    if (!message.forPattern.text){
+      global.catchError = true;
+      return await client.sendErrorMessage(
         message.client.jid,
-        { text: ezio.errorMessage(lang.NEED_TEXT_SONG) },
-        { quoted: message }
+        lang.NEED_TEXT_SONG,
+        message.key,
+        message
       );
+    }
 
     const results = await yts(message.forPattern.text);
 
@@ -135,5 +147,6 @@ ezio.addCommand(
     await client.sendMessage(message.client.jid, buttonMessage, {
       quoted: message,
     });
+    global.catchError = false;
   }
 );

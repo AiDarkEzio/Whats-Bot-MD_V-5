@@ -15,7 +15,7 @@ const GM = "it sends good morning message";
 const GN = "it sends Night message";
 
 ezio.addCommand(
-  { pattern: ["gm"], desc: GM, sucReact: '💖' },
+  { pattern: ["gm"], desc: GM, sucReact: "💖", category: [ "chat", "all" ] },
   async (message, client) => {
     var r_text = new Array();
 
@@ -34,11 +34,12 @@ ezio.addCommand(
       { text: r_text[i] + message.client.name },
       { quoted: message }
     );
+    global.catchError = false;
   }
 );
 
 ezio.addCommand(
-  { pattern: ["gn"], desc: GN, sucReact: "💖" },
+  { pattern: ["gn"], desc: GN, sucReact: "💖", category: ["chat", "all"] },
   async (message, client) => {
     var r_text = new Array();
 
@@ -55,5 +56,6 @@ ezio.addCommand(
       { text: r_text[i] + message.client.name },
       { quoted: message }
     );
+    global.catchError = false;
   }
 );

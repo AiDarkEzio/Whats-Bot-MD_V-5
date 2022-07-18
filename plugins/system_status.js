@@ -15,8 +15,8 @@ const os = require('os');
 const ezio = require('../events');
 const { runtime } = require('../lib/function');
 const lang = ezio.getString("system_stats");
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
 
 var ov_time = new Date().toLocaleString('ID', { timeZone: 'Asia/Colombo' })// .split(' ')[1]
 
@@ -25,6 +25,7 @@ ezio.addCommand(
     pattern: ["alive", "bot", "system_status"],
     desc: lang.ALIVE_DESC,
     sucReact: "🥰",
+    category: ["system", "all"],
   },
   async (message, client) => {
     const text = `
@@ -75,6 +76,7 @@ ezio.addCommand(
     await client.sendMessage(message.client.jid, buttonMessage, {
       quoted: message,
     });
+    global.catchError = false;
   }
 );
 
