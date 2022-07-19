@@ -186,8 +186,8 @@ const Whats_Bot_MD = async () => {
     try {
       event.commands.map(async (command) => {
         for (let i in command.pattern) {
-          if (command.pattern[i] == msg.forPattern.command) {
-            global.mydb.hits += 1 
+          if (command.pattern[i] == msg.forPattern.command || command.on == 'text') {
+            global.mydb.hits += 1
             await conn.sendPresenceUpdate("composing", msg.client.jid)
             await conn.sendReact(
               msg.client.jid,

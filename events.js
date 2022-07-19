@@ -44,6 +44,7 @@ const addCommand = (info, func) => {
   // const SR = reactArry("SUCCESS");
   const SP = "\n*Processing...*";
   var infos = {
+    on: info['on'] === null || undefined ? '' : info['on'],
     pattern: info["pattern"] === null || undefined ? [] : info["pattern"],
     desc: info["desc"] === null || undefined ? "" : info["desc"],
     usage: info["usage"] === null || undefined ? "" : info["usage"],
