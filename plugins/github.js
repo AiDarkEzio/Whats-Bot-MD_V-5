@@ -33,12 +33,6 @@ ezio.addCommand(
       );
     }
 
-    const resp = await client.sendMessage(
-      message.client.jid,
-      { text: ezio.infoMessage(lang.LOADING) },
-      { quoted: message }
-    );
-
     await axios
       .get(`https://api.github.com/users/${pname}`)
       .then(async (response) => {
@@ -101,7 +95,6 @@ ezio.addCommand(
           },
           { quoted: message, detectLinks: true }
         );
-        await client.sendMessage(message.client.jid, { delete: resp.key });
         global.catchError = false;
       })
       .catch(async (err) => {

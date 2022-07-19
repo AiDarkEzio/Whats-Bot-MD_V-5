@@ -35,13 +35,14 @@ function errorMessage(msg) {
 }
 
 function infoMessage(msg) {
-  return "🤖 *Info*:  ```" + msg + "```";
+  return "🤖 *Info*: " + '       ' + msg ;
 }
 
 // ["search", "all", "downloade", "chat", "system", 'fun', '18+', 'owner', 'create',  ];
 
 const addCommand = (info, func) => {
   // const SR = reactArry("SUCCESS");
+  const SP = "\n*Processing...*";
   var infos = {
     pattern: info["pattern"] === null || undefined ? [] : info["pattern"],
     desc: info["desc"] === null || undefined ? "" : info["desc"],
@@ -52,6 +53,7 @@ const addCommand = (info, func) => {
     onlyGroup:
       info["onlyGroup"] === null || undefined ? false : info["onlyGroup"],
     onlyPm: info["onlyPm"] === null || undefined ? false : info["onlyPm"],
+    strPross: info["strPross"] === null || undefined ? SP : info["strPross"],
     deleteCommand:
       info["deleteCommand"] === null || undefined
         ? false
