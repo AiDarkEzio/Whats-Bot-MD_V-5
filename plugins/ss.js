@@ -33,7 +33,7 @@ ezio.addCommand(
     }
     try {
       const torken = process.env.SS;
-      const uri = encodeURI(args[0]);
+      const uri = encodeURI(message.forPattern.args[0]);
       const url = `https://shot.screenshotapi.net/screenshot?token=${torken}&url=${uri}&file_type=jpeg&full_page=true`;
 
       const response = await got(url);
