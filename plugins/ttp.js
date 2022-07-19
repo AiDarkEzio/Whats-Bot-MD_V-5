@@ -77,7 +77,7 @@ ezio.addCommand(
       );
     }
 
-    var uri = encodeURI(match[1]);
+    var uri = encodeURI(message.forPattern.text);
 
     try {
       var resSticker = await axios.get(
