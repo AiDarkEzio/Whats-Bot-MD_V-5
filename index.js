@@ -185,12 +185,7 @@ const Whats_Bot_MD = async () => {
       event.commands.map(async (command) => {
         for (let i in command.pattern) {
           if (command.pattern[i] == msg.forPattern.command) {
-            await conn.sendPresenceUpdate("composing", msg.client.jid);
-            const info = await conn.sendMessage(
-              msg.client.jid,
-              { text: command.strPross },
-              { quoted: msg }
-            );
+            await conn.sendPresenceUpdate("composing", msg.client.jid)
             await conn.sendReact(
               msg.client.jid,
               await event.reactArry("INFO"),
@@ -201,7 +196,6 @@ const Whats_Bot_MD = async () => {
               ? ""
               : await conn.sendReact(msg.client.jid, command.sucReact, msg.key);
             await conn.sendPresenceUpdate("available", msg.client.jid);
-            await conn.sendMessage(msg.client.jid, { delete: info.key });
           }
         }
       });
