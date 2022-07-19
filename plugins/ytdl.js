@@ -123,7 +123,9 @@ ezio.addCommand(
         fileName: `${media.title}.mp4`,
         caption: `♻ Title : ${media.title}\n♻ File Size : ${
           media.filesizeF
-        }\n♻ Url : ${isUrl(text)}\n♻ Ext : MP4\n♻ Resolution : ${
+        }\n♻ Url : ${isUrl(
+          message.forPattern.text
+        )}\n♻ Ext : MP4\n♻ Resolution : ${
           message.forPattern.args[1] || "360p"
         }`,
       },

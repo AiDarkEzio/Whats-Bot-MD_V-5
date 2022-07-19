@@ -1,3 +1,15 @@
+/* ═══════════════════════════════════════════════════════ //
+=> If you want to recode, reupload,
+=> or copy the codes/script,
+=> pls give credit,
+=> no credit? i will take action immediately.
+==> Copyright (C) 2022 Dark_Ezio.
+==> Licensed under the  MIT License;
+===> you may not use this file except in compliance with the License.
+=> Thank you to Lord Buddha, Family and Myself.
+=> Whats Bot - Dark_Ezio.
+// ════════════════════════════ */
+
 const P = require("pino");
 const fs = require("fs");
 const path = require("path");
@@ -13,8 +25,8 @@ const {
   jidNormalizedUser,
 } = require("@adiwajshing/baileys");
 const { serialize, WAConnection } = require("./lib/simple");
-const event = require('./events')
-const messageHandler = require('./module')
+const event = require("./events");
+const messageHandler = require("./module");
 
 const store = makeInMemoryStore({
   logger: P().child({ level: "silent", stream: "store" }),
@@ -43,8 +55,7 @@ const readPlugins = (name) => {
       require("./" + name + "/" + plugin);
     }
   });
-}
-
+};
 
 // start a connection
 const Whats_Bot_MD = async () => {
@@ -86,7 +97,9 @@ const Whats_Bot_MD = async () => {
         console.log("Connection Lost from Server, reconnecting...");
         Whats_Bot_MD();
       } else if (reason === DisconnectReason.connectionReplaced) {
-        console.log("Connection Replaced, Another New Session Opened, Please Close Current Session First");
+        console.log(
+          "Connection Replaced, Another New Session Opened, Please Close Current Session First"
+        );
         conn.logout();
       } else if (reason === DisconnectReason.loggedOut) {
         console.log(`Device Logged Out, Please Scan Again And Run.`);
@@ -161,36 +174,55 @@ const Whats_Bot_MD = async () => {
     if (!msg.message) return;
     if (msg.key && msg.key.remoteJid == "status@broadcast") return;
     if (config.options.autoRead) {
-      await conn.sendReadReceipt(msg.key.remoteJid, msg.key.participant, [msg.key.id]);
+      await conn.sendReadReceipt(msg.key.remoteJid, msg.key.participant, [
+        msg.key.id,
+      ]);
     }
 
-    require('./lib/main')(msg)
+    require("./lib/main")(msg);
 
     try {
       event.commands.map(async (command) => {
         for (let i in command.pattern) {
           if (command.pattern[i] == msg.forPattern.command) {
             await conn.sendPresenceUpdate("composing", msg.client.jid);
-            await conn.sendReact(msg.client.jid, event.reactArry('INFO'), msg.key);
+            await conn.sendReact(
+              msg.client.jid,
+              event.reactArry("INFO"),
+              msg.key
+            );
             await command.function(msg, conn);
-            global.catchError ? '' : await conn.sendReact(msg.client.jid, command.sucReact, msg.key);
+            global.catchError
+              ? ""
+              : await conn.sendReact(msg.client.jid, command.sucReact, msg.key);
             await conn.sendPresenceUpdate("available", msg.client.jid);
-          };
-        };
+          }
+        }
       });
     } catch (error) {
       return await conn.sendErrorMessage(msg.client.jid, error, msg.key, msg);
     }
-    
   });
 
   setInterval(async () => {
-    const get_localized_date = { weekday: "long", year: "numeric", month: "long", day: "numeric", };
-    var utch = new Date().toLocaleDateString('EN', get_localized_date);
-    var ov_time = new Date().toLocaleString("LK", { timeZone: "Asia/Colombo" }).split(" ")[1];
-    const biography = "📅 " + utch + "\n⌚ " + ov_time + "\n\n⏱ Auto Bio B... 🚀powered By Whats Bot";
+    const get_localized_date = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    var utch = new Date().toLocaleDateString("EN", get_localized_date);
+    var ov_time = new Date()
+      .toLocaleString("LK", { timeZone: "Asia/Colombo" })
+      .split(" ")[1];
+    const biography =
+      "📅 " +
+      utch +
+      "\n⌚ " +
+      ov_time +
+      "\n\n⏱ Auto Bio B... 🚀powered By Whats Bot";
     await conn.updateProfileStatus(biography);
-  }, 1000*60);
+  }, 1000 * 60);
 
   if (conn.user && conn.user?.id)
     conn.user.jid = jidNormalizedUser(conn.user?.id);
