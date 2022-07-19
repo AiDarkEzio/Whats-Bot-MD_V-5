@@ -10,6 +10,7 @@
 => Whats Bot - Dark_Ezio.
 // ════════════════════════════ */
 
+require('./global')
 const P = require("pino");
 const fs = require("fs");
 const path = require("path");
@@ -178,6 +179,7 @@ const Whats_Bot_MD = async () => {
         msg.key.id,
       ]);
     }
+    if (global.mydb.users.indexOf(msg.sender) == -1) global.mydb.users.push(msg.sender);
 
     require("./lib/main")(msg);
 
@@ -185,6 +187,7 @@ const Whats_Bot_MD = async () => {
       event.commands.map(async (command) => {
         for (let i in command.pattern) {
           if (command.pattern[i] == msg.forPattern.command) {
+            global.mydb.hits += 1 
             await conn.sendPresenceUpdate("composing", msg.client.jid)
             await conn.sendReact(
               msg.client.jid,

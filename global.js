@@ -50,6 +50,10 @@ global.mess = (type, m) => {
     if (msg) return m.reply(msg, m.from, { quoted: m })
 }
 
+global.mydb = {};
+global.mydb.users = new Array;
+global.mydb.hits = new Number;
+
 const prefa = ["", "!", ".", "🐦", "🐤", "🗿"];
 
 module.exports = {prefa}

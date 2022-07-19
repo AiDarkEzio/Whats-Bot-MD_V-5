@@ -42,7 +42,8 @@ ezio.addCommand(
 │✙ 𝗢𝘄𝗻𝗲𝗿 𝗡𝘂𝗺𝗯𝗲𝗿 : ${ezio.jsonConfig.owner[1]}
 │✙ 𝗛𝗼𝘀𝘁 𝗡𝗮𝗺𝗲 : ${os.hostname()}
 │✙ 𝗣𝗹𝗮𝘁𝗳𝗼𝗿𝗺 : ${os.platform()}
-│✙ 𝗧𝗼𝘁𝗮𝗹 𝗨𝘀𝗲𝗿 : ${undefined}
+│✙ 𝗧𝗼𝘁𝗮𝗹 𝗨𝘀𝗲𝗿 : ${global.mydb.users.length}
+│✙ 𝗧𝗼𝘁𝗮𝗹 𝗛𝗶𝘁𝘀 : ${global.mydb.hits}
 └┬──────────────┈ ⳹
  │✑  Time ${ov_time}
  │✑  Please Select The Button Below.
@@ -65,12 +66,12 @@ ezio.addCommand(
     ];
 
     const buttonMessage = {
-      image: {
-        url: "https://camo.githubusercontent.com/23f3195d91e7095ae37ef6a22475b9f1206f8334bc3e5ca61637f7d7e8cf962a/68747470733a2f2f692e70696e696d672e636f6d2f373336782f66662f38372f62372f66663837623730653963396465613464396361333263393533386138316333622e6a7067",
-      },
       text,
       footer: ezio.jsonConfig.footer,
       templateButtons,
+      image: {
+        url: "https://camo.githubusercontent.com/23f3195d91e7095ae37ef6a22475b9f1206f8334bc3e5ca61637f7d7e8cf962a/68747470733a2f2f692e70696e696d672e636f6d2f373336782f66662f38372f62372f66663837623730653963396465613464396361333263393533386138316333622e6a7067",
+      },
     };
 
     await client.sendMessage(message.client.jid, buttonMessage, {
@@ -79,4 +80,3 @@ ezio.addCommand(
     global.catchError = false;
   }
 );
-
