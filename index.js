@@ -77,10 +77,26 @@ const Whats_Bot_MD = async () => {
   store.bind(conn.ev);
 
   conn.ev.on("chats.set", () => {
+    fs.writeFile(
+      path.join(__dirname, "temp", "chats.set.txt"),
+      store.chats.all(),
+      function (err) {
+        if (err) throw err;
+        console.log("File is created successfully.");
+      }
+    );
     console.log("got chats", store.chats.all());
   });
 
   conn.ev.on("contacts.set", () => {
+    fs.writeFile(
+      path.join(__dirname, "temp", "contacts.set.txt"),
+      store.contacts,
+      function (err) {
+        if (err) throw err;
+        console.log("File is created successfully.");
+      }
+    );
     console.log("got contacts", Object.values(store.contacts));
   });
 

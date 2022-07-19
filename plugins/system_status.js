@@ -65,7 +65,7 @@ ezio.addCommand(
       { quickReplyButton: { displayText: "🔖 All Menu 🔖", id: ".allmenu" } },
     ];
 
-    const buttonMessage = {
+    const templateMessage = {
       text,
       footer: ezio.jsonConfig.footer,
       templateButtons,
@@ -74,9 +74,33 @@ ezio.addCommand(
       },
     };
 
-    await client.sendMessage(message.client.jid, buttonMessage, {
+    await client.sendMessage(message.client.jid, templateMessage, {
       quoted: message,
     });
     global.catchError = false;
   }
 );
+
+
+// let buttonMessage = {
+//   document: fs.readFileSync("./StefanieMedia/image/Stefanie.png"),
+//   mimetype: docs,
+//   jpegThumbnail: XeonLft,
+//   mentions: [num],
+//   fileName: `${metadata.subject}`,
+//   fileLength: 99999999999999,
+//   caption: xeonbody,
+//   footer: `${botname}`,
+//   buttons: buttons,
+//   headerType: 4,
+//   contextInfo: {
+//     externalAdReply: {
+//       title: `${ownername}`,
+//       body: `Bye! my friend, take care.`,
+//       mediaType: 2,
+//       thumbnail: XeonLft,
+//       sourceUrl: `${websitex}`,
+//       mediaUrl: `${websitex}`,
+//     },
+//   },
+// };
