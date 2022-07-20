@@ -12,6 +12,8 @@
 
 const { generateWAMessageFromContent, proto } = require("@adiwajshing/baileys");
 const os = require("os");
+const fs = require("fs");
+const path = require("path");
 const ezio = require("../events");
 const { runtime } = require("../lib/function");
 const lang = ezio.getString("system_stats");
@@ -61,9 +63,10 @@ ezio.addCommand(
         proto.Message.fromObject({
           templateMessage: {
             hydratedTemplate: {
-              imageMessage: {
-                url: "https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-TMB.jpg",
-                mimetype: "/jpg/image",
+              locationMessage: {
+                jpegThumbnail: fs.readFileSync(
+                  path.join(__dirname, "..", "Media", "D_E-TMB.jpg")
+                ),
               },
               hydratedContentText: `${Content}`,
               hydratedFooterText: `${Footer}`,
@@ -105,7 +108,7 @@ ezio.addCommand(
         { userJid: message.client.jid }
       );
 
-      await client.sendMessage(message.client.jid, template.message);
+      await client.sendMessage(message.client.jid, template.message.templateMessage.hydratedTemplate.locationMessage.jpegThumbnail);
 
       global.catchError = false;
     } catch (error) {
