@@ -15,6 +15,7 @@ const os = require('os');
 const ezio = require('../events');
 const { runtime } = require('../lib/function');
 const lang = ezio.getString("system_stats");
+const axios = require("axios");
 // const fs = require('fs');
 // const path = require('path');
 
@@ -28,6 +29,12 @@ ezio.addCommand(
     category: ["system", "all"],
   },
   async (message, client) => {
+
+    var webimage = await axios.get(
+      `https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-DPC.jpg`,
+      { responseType: "arraybuffer" }
+    );
+    
     const text = `
 ┌─❖
 │「 Hi 👋 」
@@ -70,9 +77,7 @@ ezio.addCommand(
       footer: ezio.jsonConfig.footer,
       templateButtons,
       headerType: 4,
-      image: {
-        url: "https://camo.githubusercontent.com/23f3195d91e7095ae37ef6a22475b9f1206f8334bc3e5ca61637f7d7e8cf962a/68747470733a2f2f692e70696e696d672e636f6d2f373336782f66662f38372f62372f66663837623730653963396465613464396361333263393533386138316333622e6a7067",
-      },
+      image: Buffer.from(webimage.data),
     };
 
     await client.sendMessage(message.client.jid, templateMessage, {
