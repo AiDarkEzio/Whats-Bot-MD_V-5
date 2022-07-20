@@ -107,7 +107,7 @@ ezio.addCommand(
 
       await client.sendMessage(
         message.client.jid,
-        { text: template.message },
+        { template },
         { quoted: message }
       );
 
