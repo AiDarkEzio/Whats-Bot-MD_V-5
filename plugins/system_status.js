@@ -57,63 +57,51 @@ ezio.addCommand(
  │✑  Please Select The Button Below.
  └───────────────┈ ⳹`;
 
-      let template = generateWAMessageFromContent(
-        message.client.jid,
-        proto.Message.fromObject({
-          templateMessage: {
-            hydratedTemplate: {
-              imageMessage: {
-                url: "https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-TMB.jpg",
-              },
-              hydratedContentText: `${Content}`,
-              hydratedFooterText: `${Footer}`,
-              hydratedButtons: [
-                {
-                  urlButton: {
-                    displayText: "📰 Subscrib On YouTube 📍",
-                    url: "https://www.youtube.com/channel/UCeDeaDD8dpdMT2gO3VHY1JQ",
-                  },
-                },
-                {
-                  urlButton: {
-                    displayText: "📟 My Blogs",
-                    url: "https://aidarkezio.github.io/",
-                  },
-                },
-                {
-                  quickReplyButton: {
-                    displayText: "🔖 All Menu 🔖",
-                    id: ".all-menu",
-                  },
-                },
-                {
-                  quickReplyButton: {
-                    displayText: "⭐ All List ⭐",
-                    id: `.all-list`,
-                  },
-                },
-                {
-                  quickReplyButton: {
-                    displayText: "👨🏼‍💻 Creater & Owner 👨🏼‍💻",
-                    id: `.creater`,
-                  },
-                },
-              ],
-            },
+      const templateButtons = [
+        {
+          urlButton: {
+            displayText: "📰 Subscrib On YouTube 📍",
+            url: "https://www.youtube.com/channel/UCeDeaDD8dpdMT2gO3VHY1JQ",
           },
-        }),
-        { userJid: message.client.jid }
-      );
+        },
+        {
+          urlButton: {
+            displayText: "📟 My Blogs",
+            url: "https://aidarkezio.github.io/",
+          },
+        },
+        {
+          quickReplyButton: {
+            displayText: "🔖 All Menu 🔖",
+            id: ".all-menu",
+          },
+        },
+        {
+          quickReplyButton: {
+            displayText: "⭐ All List ⭐",
+            id: `.all-list`,
+          },
+        },
+        {
+          quickReplyButton: {
+            displayText: "👨🏼‍💻 Creater & Owner 👨🏼‍💻",
+            id: `.creater`,
+          },
+        },
+      ];
 
-      await client.sendMessage(
-        message.client.jid,
-        { template },
-        { quoted: message }
-      );
+      const templateMessage = {
+        text: Content,
+        footer: Footer,
+        templateButtons: templateButtons,
+        image: {
+          url: "https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-TMB.jpg",
+        },
+        headerType: 4,
+      };
 
-      // await client.relayMessage(message.client.jid, template.message, {
-      //   messageId: template.key.id,
-      // });
+      await client.sendMessage(message.client.jid, templateMessage);
+      
       global.catchError = false;
     } catch (error) {
       global.catchError = true;
@@ -150,3 +138,51 @@ ezio.addCommand(
 //     },
 //   },
 // };
+// ========================================================
+// let template = generateWAMessageFromContent(
+//         message.client.jid,
+//         proto.Message.fromObject({
+//           templateMessage: {
+//             hydratedTemplate: {
+//               imageMessage: {
+//                 url: "https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-TMB.jpg",
+//               },
+//               hydratedContentText: `${Content}`,
+//               hydratedFooterText: `${Footer}`,
+//               hydratedButtons: [
+//                 {
+//                   urlButton: {
+//                     displayText: "📰 Subscrib On YouTube 📍",
+//                     url: "https://www.youtube.com/channel/UCeDeaDD8dpdMT2gO3VHY1JQ",
+//                   },
+//                 },
+//                 {
+//                   urlButton: {
+//                     displayText: "📟 My Blogs",
+//                     url: "https://aidarkezio.github.io/",
+//                   },
+//                 },
+//                 {
+//                   quickReplyButton: {
+//                     displayText: "🔖 All Menu 🔖",
+//                     id: ".all-menu",
+//                   },
+//                 },
+//                 {
+//                   quickReplyButton: {
+//                     displayText: "⭐ All List ⭐",
+//                     id: `.all-list`,
+//                   },
+//                 },
+//                 {
+//                   quickReplyButton: {
+//                     displayText: "👨🏼‍💻 Creater & Owner 👨🏼‍💻",
+//                     id: `.creater`,
+//                   },
+//                 },
+//               ],
+//             },
+//           },
+//         }),
+//         { userJid: message.client.jid }
+//       )
