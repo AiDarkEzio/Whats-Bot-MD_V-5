@@ -43,7 +43,7 @@ ezio.addCommand(
 ││✑  🐦🖐️!!
 │└───────────────┈ ⳹
 │ 「 BOT INFO 」
-│✙ 𝗦𝗽𝗲𝗲𝗱 : ${latensie.toFixed(5)} miliseconds
+│✙ 𝗦𝗽𝗲𝗲𝗱 : ${latensie.toFixed(4)} miliseconds
 │✙ 𝗥𝘂𝗻𝘁𝗶𝗺𝗲 : ${runtime(process.uptime())}
 │✙ 𝗕𝗼𝘁 𝗡𝗮𝗺𝗲 : Whats_Bot_MD
 │✙ 𝗢𝘄𝗻𝗲𝗿 𝗡𝗮𝗺𝗲 : Dark_Ezio
@@ -57,7 +57,7 @@ ezio.addCommand(
  │✑  Please Select The Button Below.
  └───────────────┈ ⳹`;
 
-      const templateButtons = [
+      const temp = [
         {
           urlButton: {
             displayText: "📰 Subscrib On YouTube 📍",
@@ -93,7 +93,7 @@ ezio.addCommand(
       const buttonMessage = {
         text: Content,
         footer: Footer,
-        templateButtons: templateButtons,
+        templateButtons: temp,
         image: {
           url: "https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-TMB.jpg",
         },
