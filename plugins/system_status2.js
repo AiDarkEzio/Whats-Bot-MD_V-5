@@ -11,26 +11,25 @@
 // ════════════════════════════ */
 
 const { generateWAMessageFromContent, proto } = require("@adiwajshing/baileys");
-const os = require('os');
-const ezio = require('../events');
-const { runtime } = require('../lib/function');
+const os = require("os");
+const ezio = require("../events");
+const { runtime } = require("../lib/function");
 const lang = ezio.getString("system_stats");
 const speed = require("performance-now");
 // const { exec } = require("child_process");
 // const fs = require('fs');
 // const path = require('path');
 
-var ov_time = new Date().toLocaleString('EN', { timeZone: 'Asia/Colombo' })// .split(' ')[1]
+var ov_time = new Date().toLocaleString("EN", { timeZone: "Asia/Colombo" }); // .split(' ')[1]
 
 ezio.addCommand(
   {
-    pattern: ["alive", "bot", "system_status"],
+    pattern: ["alive-now2", "bot2", "system_status2"],
     desc: lang.ALIVE_DESC,
-    sucReact: "🥰",
+    sucReact: "💖",
     category: ["system", "all"],
   },
   async (message, client) => {
-
     try {
       let timestampe = speed();
       let latensie = speed() - timestampe;
@@ -57,51 +56,57 @@ ezio.addCommand(
  │✑  Please Select The Button Below.
  └───────────────┈ ⳹`;
 
-      const temp = [
-        {
-          urlButton: {
-            displayText: "📰 Subscrib On YouTube 📍",
-            url: "https://www.youtube.com/channel/UCeDeaDD8dpdMT2gO3VHY1JQ",
+      let template = generateWAMessageFromContent(
+        message.client.jid,
+        proto.Message.fromObject({
+          templateMessage: {
+            hydratedTemplate: {
+              locationMessage: {
+                jpegThumbnail:
+                  "https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-TMB.jpg",
+              },
+              hydratedContentText: `${Content}`,
+              hydratedFooterText: `${Footer}`,
+              hydratedButtons: [
+                {
+                  urlButton: {
+                    displayText: "📰 Subscrib On YouTube 📍",
+                    url: "https://www.youtube.com/channel/UCeDeaDD8dpdMT2gO3VHY1JQ",
+                  },
+                },
+                {
+                  urlButton: {
+                    displayText: "📟 My Blogs",
+                    url: "https://aidarkezio.github.io/",
+                  },
+                },
+                {
+                  quickReplyButton: {
+                    displayText: "🔖 All Menu 🔖",
+                    id: ".all-menu",
+                  },
+                },
+                {
+                  quickReplyButton: {
+                    displayText: "⭐ All List ⭐",
+                    id: `.all-list`,
+                  },
+                },
+                {
+                  quickReplyButton: {
+                    displayText: "👨🏼‍💻 Creater & Owner 👨🏼‍💻",
+                    id: `.creater`,
+                  },
+                },
+              ],
+            },
           },
-        },
-        {
-          urlButton: {
-            displayText: "📟 My Blogs",
-            url: "https://aidarkezio.github.io/",
-          },
-        },
-        {
-          quickReplyButton: {
-            displayText: "🔖 All Menu 🔖",
-            id: ".all-menu",
-          },
-        },
-        {
-          quickReplyButton: {
-            displayText: "⭐ All List ⭐",
-            id: `.all-list`,
-          },
-        },
-        {
-          quickReplyButton: {
-            displayText: "👨🏼‍💻 Creater & Owner 👨🏼‍💻",
-            id: `.creater`,
-          },
-        },
-      ];
+        }),
+        { userJid: message.client.jid }
+      );
 
-      const buttonMessage = {
-        text: Content,
-        footer: Footer,
-        templateButtons: temp,
-        image: {
-          url: "https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-TMB.jpg",
-        },
-        headerType: 4,
-      };
+      await client.sendMessage(message.client.jid, template.message);
 
-      await client.sendMessage(message.client.jid, buttonMessage);
-      
       global.catchError = false;
     } catch (error) {
       global.catchError = true;
@@ -114,7 +119,6 @@ ezio.addCommand(
     }
   }
 );
-
 
 // let buttonMessage = {
 //   document: fs.readFileSync("./StefanieMedia/image/Stefanie.png"),

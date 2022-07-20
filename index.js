@@ -10,6 +10,7 @@
 => Whats Bot - Dark_Ezio.
 // ════════════════════════════ */
 
+require('link-preview-js')
 require('./global')
 const P = require("pino");
 const fs = require("fs");
@@ -24,6 +25,7 @@ const {
   useMultiFileAuthState,
   useSingleFileAuthState,
   jidNormalizedUser,
+  Browsers,
 } = require("@adiwajshing/baileys");
 const { serialize, WAConnection } = require("./lib/simple");
 const event = require("./events");
@@ -67,6 +69,7 @@ const Whats_Bot_MD = async () => {
   const { version, isLatest } = await fetchLatestBaileysVersion();
   console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
   let connOptions = {
+    browser: Browsers.baileys("Dark Ezio"),
     version,
     logger: P({ level: "silent" }),
     printQRInTerminal: true,
@@ -76,29 +79,9 @@ const Whats_Bot_MD = async () => {
 
   store.bind(conn.ev);
 
-  conn.ev.on("chats.set", () => {
-    fs.writeFile(
-      path.join(__dirname, "temp", "chats.set.txt"),
-      store.chats.all(),
-      function (err) {
-        if (err) throw err;
-        console.log("File is created successfully.");
-      }
-    );
-    console.log("got chats", store.chats.all());
-  });
+  conn.ev.on("chats.set", () => console.log("got chats", store.chats.all()));
 
-  conn.ev.on("contacts.set", () => {
-    fs.writeFile(
-      path.join(__dirname, "temp", "contacts.set.txt"),
-      store.contacts,
-      function (err) {
-        if (err) throw err;
-        console.log("File is created successfully.");
-      }
-    );
-    console.log("got contacts", Object.values(store.contacts));
-  });
+  conn.ev.on("contacts.set", () => console.log("got contacts", Object.values(store.contacts)));
 
   conn.ev.on("connection.update", async (update) => {
     const { connection, lastDisconnect } = update;
@@ -134,7 +117,7 @@ const Whats_Bot_MD = async () => {
     } else if (connection === "open") {
       console.log(`\n 👩‍🦰 Login successful!▶\n`);
     }
-    console.log("Connected...: " + connection);
+    // console.log("Connected...: " + connection);
   });
 
   conn.ev.on("creds.update", saveCreds); // listen for when the auth credentials is updated
@@ -241,7 +224,7 @@ const Whats_Bot_MD = async () => {
       ov_time +
       "\n\n⏱ Auto Bio B... 🚀powered By Whats Bot";
     await conn.updateProfileStatus(biography);
-  }, 1000 * 60);
+  }, 1000 * 10);
 
   if (conn.user && conn.user?.id)
     conn.user.jid = jidNormalizedUser(conn.user?.id);
