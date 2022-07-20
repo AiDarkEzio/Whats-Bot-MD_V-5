@@ -90,7 +90,7 @@ ezio.addCommand(
         },
       ];
 
-      const templateMessage = {
+      const buttonMessage = {
         text: Content,
         footer: Footer,
         templateButtons: templateButtons,
@@ -100,7 +100,7 @@ ezio.addCommand(
         headerType: 4,
       };
 
-      await client.sendMessage(message.client.jid, templateMessage);
+      await client.sendMessage(message.client.jid, buttonMessage);
       
       global.catchError = false;
     } catch (error) {
