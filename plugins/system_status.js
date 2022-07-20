@@ -10,16 +10,17 @@
 => Whats Bot - Dark_Ezio.
 // ════════════════════════════ */
 
+const { generateWAMessageFromContent, proto } = require("@adiwajshing/baileys");
 const os = require('os');
-
 const ezio = require('../events');
 const { runtime } = require('../lib/function');
 const lang = ezio.getString("system_stats");
-const axios = require("axios");
+const speed = require("performance-now");
+// const { exec } = require("child_process");
 // const fs = require('fs');
 // const path = require('path');
 
-var ov_time = new Date().toLocaleString('ID', { timeZone: 'Asia/Colombo' })// .split(' ')[1]
+var ov_time = new Date().toLocaleString('EN', { timeZone: 'Asia/Colombo' })// .split(' ')[1]
 
 ezio.addCommand(
   {
@@ -30,12 +31,11 @@ ezio.addCommand(
   },
   async (message, client) => {
 
-    var webimage = await axios.get(
-      `https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-DPC.jpg`,
-      { responseType: "arraybuffer" }
-    );
-    
-    const text = `
+    try {
+      let timestampe = speed();
+      let latensie = speed() - timestampe;
+      const Footer = ezio.jsonConfig.footer;
+      const Content = `
 ┌─❖
 │「 Hi 👋 」
 └┬❖ 「 ${message.client.name} 」
@@ -43,6 +43,7 @@ ezio.addCommand(
 ││✑  🐦🖐️!!
 │└───────────────┈ ⳹
 │ 「 BOT INFO 」
+│✙ 𝗦𝗽𝗲𝗲𝗱 : ${latensie.toFixed(5)} miliseconds
 │✙ 𝗥𝘂𝗻𝘁𝗶𝗺𝗲 : ${runtime(process.uptime())}
 │✙ 𝗕𝗼𝘁 𝗡𝗮𝗺𝗲 : Whats_Bot_MD
 │✙ 𝗢𝘄𝗻𝗲𝗿 𝗡𝗮𝗺𝗲 : Dark_Ezio
@@ -52,38 +53,71 @@ ezio.addCommand(
 │✙ 𝗧𝗼𝘁𝗮𝗹 𝗨𝘀𝗲𝗿 : ${global.mydb.users.length}
 │✙ 𝗧𝗼𝘁𝗮𝗹 𝗛𝗶𝘁𝘀 : ${global.mydb.hits}
 └┬──────────────┈ ⳹
- │✑  Time ${ov_time}
+ │✑  D & T : ${ov_time}
  │✑  Please Select The Button Below.
  └───────────────┈ ⳹`;
 
-    const templateButtons = [
-      {
-        urlButton: {
-          displayText: "📰 Subscrib On YouTube 📍",
-          url: "https://www.youtube.com/channel/UCeDeaDD8dpdMT2gO3VHY1JQ",
-        },
-      },
-      {
-        urlButton: {
-          displayText: "📟 My Blogs",
-          url: "https://aidarkezio.github.io/",
-        },
-      },
-      { quickReplyButton: { displayText: "🔖 All Menu 🔖", id: ".allmenu" } },
-    ];
+      let template = generateWAMessageFromContent(
+        message.client.jid,
+        proto.Message.fromObject({
+          templateMessage: {
+            hydratedTemplate: {
+              imageMessage: {
+                url: "https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-TMB.jpg",
+              },
+              hydratedContentText: `${Content}`,
+              hydratedFooterText: `${Footer}`,
+              hydratedButtons: [
+                {
+                  urlButton: {
+                    displayText: "📰 Subscrib On YouTube 📍",
+                    url: "https://www.youtube.com/channel/UCeDeaDD8dpdMT2gO3VHY1JQ",
+                  },
+                },
+                {
+                  urlButton: {
+                    displayText: "📟 My Blogs",
+                    url: "https://aidarkezio.github.io/",
+                  },
+                },
+                {
+                  quickReplyButton: {
+                    displayText: "🔖 All Menu 🔖",
+                    id: ".all-menu",
+                  },
+                },
+                {
+                  quickReplyButton: {
+                    displayText: "⭐ All List ⭐",
+                    id: `.all-list`,
+                  },
+                },
+                {
+                  quickReplyButton: {
+                    displayText: "👨🏼‍💻 Creater & Owner 👨🏼‍💻",
+                    id: `.creater`,
+                  },
+                },
+              ],
+            },
+          },
+        }),
+        { userJid: message.client.jid }
+      );
 
-    const templateMessage = {
-      text,
-      footer: ezio.jsonConfig.footer,
-      templateButtons,
-      headerType: 4,
-      image: Buffer.from(webimage.data),
-    };
-
-    await client.sendMessage(message.client.jid, templateMessage, {
-      quoted: message,
-    });
-    global.catchError = false;
+      await client.relayMessage(message.client.jid, template.message, {
+        messageId: template.key.id,
+      });
+      global.catchError = false;
+    } catch (error) {
+      global.catchError = true;
+      return await client.sendErrorMessage(
+        message.client.jid,
+        error,
+        message.key,
+        message
+      );
+    }
   }
 );
 
