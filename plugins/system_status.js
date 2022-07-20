@@ -105,9 +105,15 @@ ezio.addCommand(
         { userJid: message.client.jid }
       );
 
-      await client.relayMessage(message.client.jid, template.message, {
-        messageId: template.key.id,
-      });
+      await client.sendMessage(
+        message.client.jid,
+        { text: template.message },
+        { quoted: message }
+      );
+
+      // await client.relayMessage(message.client.jid, template.message, {
+      //   messageId: template.key.id,
+      // });
       global.catchError = false;
     } catch (error) {
       global.catchError = true;
