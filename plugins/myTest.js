@@ -17,11 +17,6 @@ const path = require('path')
 const got = require('got')
 const axios = require('axios')
 
-var webimage = await axios.get(
-  `https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-DPC.jpg`,
-  { responseType: "arraybuffer" }
-);
-
 ezio.addCommand(
   {
     pattern: ['for-my-test'],
@@ -30,6 +25,12 @@ ezio.addCommand(
     category: ["all"],
   },
   async (message, client) => {
+
+    var webimage = await axios.get(
+      `https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-DPC.jpg`,
+      { responseType: "arraybuffer" }
+    );
+
     await client.sendMessage(
       message.client.jid,
       {
@@ -119,7 +120,7 @@ ezio.addCommand(
       headerType: 4,
       image: Buffer(webimage.data),
     };
-    
+
     await client.sendMessage(message.client.jid, templateMessage , {
         quoted: message, 
         message: {
