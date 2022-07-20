@@ -70,42 +70,42 @@ ezio.addCommand(
       { quoted: message }
     );
 
-    await client.sendMessage(
-      message.client.jid,
-      {
-        text: "oh hello there",
-        contextInfo: {
-          externalAdReply: {
-            title: ` Whats_Bot-MD`,
-            body: ` Ai_Dark_Ezio`,
-            mediaType: 2,
-            thumbnail:
-              "https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-DPC.jpg",
-            sourceUrl: `https://aidarkezio.github.io`,
-            mediaUrl: `https://www.youtube.com/watch?v=zZfCIFbZ_rc`,
-          },
-        },
-      },
-      {
-        quoted: {
-          key: message.key,
-          message: {
-            forwardingScore: 999, 
-            isForwarded: true,
-            orderMessage: {
-              itemCount: 100,
-              status: 200,
-              thumbnail: "https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-DPC.jpg",
-              surface: 200,
-              message: `Dark Ezio`,
-              orderTitle: "xeon",
-              sellerJid: "0@s.whatsapp.net",
-            },
-          },
-          sendEphemeral: true,
-        },
-      }
-    );
+    // await client.sendMessage(
+    //   message.client.jid,
+    //   {
+    //     text: "oh hello there",
+    //     contextInfo: {
+    //       externalAdReply: {
+    //         title: ` Whats_Bot-MD`,
+    //         body: ` Ai_Dark_Ezio`,
+    //         mediaType: 2,
+    //         thumbnail:
+    //           "https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-DPC.jpg",
+    //         sourceUrl: `https://aidarkezio.github.io`,
+    //         mediaUrl: `https://www.youtube.com/watch?v=zZfCIFbZ_rc`,
+    //       },
+    //     },
+    //   },
+    //   {
+    //     quoted: {
+    //       key: message.key,
+    //       message: {
+    //         forwardingScore: 999, 
+    //         isForwarded: true,
+    //         orderMessage: {
+    //           itemCount: 100,
+    //           status: 200,
+    //           thumbnail: "https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-DPC.jpg",
+    //           surface: 200,
+    //           message: `Dark Ezio`,
+    //           orderTitle: "xeon",
+    //           sellerJid: "0@s.whatsapp.net",
+    //         },
+    //       },
+    //       sendEphemeral: true,
+    //     },
+    //   }
+    // );
 
     const templateButtons = [
         {index: 1, urlButton: {displayText: '⭐ Star Baileys on GitHub!', url: 'https://github.com/adiwajshing/Baileys'}},
