@@ -61,9 +61,9 @@ ezio.addCommand(
         proto.Message.fromObject({
           templateMessage: {
             hydratedTemplate: {
-              locationMessage: {
-                jpegThumbnail:
-                  "https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-TMB.jpg",
+              imageMessage: {
+                url: "https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-TMB.jpg",
+                mimetype: "/jpg/image",
               },
               hydratedContentText: `${Content}`,
               hydratedFooterText: `${Footer}`,

@@ -57,7 +57,7 @@ ezio.addCommand(
  │✑  Please Select The Button Below.
  └───────────────┈ ⳹`;
 
-      const temp = [
+      const templateButtons = [
         {
           urlButton: {
             displayText: "📰 Subscrib On YouTube 📍",
@@ -93,11 +93,10 @@ ezio.addCommand(
       const buttonMessage = {
         text: Content,
         footer: Footer,
-        templateButtons: temp,
+        templateButtons: templateButtons,
         image: {
           url: "https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-TMB.jpg",
         },
-        headerType: 4,
       };
 
       await client.sendMessage(message.client.jid, buttonMessage);
