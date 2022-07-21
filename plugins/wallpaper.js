@@ -17,7 +17,7 @@ const lang = ezio.getString("wallpaper");
 
 ezio.addCommand(
   {
-    pattern: ['wallpaper'],
+    pattern: ["wallpaper"],
     desc: lang.WP,
     sucReact: "🌇",
     category: ["all", "downloade"],
