@@ -63,9 +63,7 @@ const readPlugins = (name) => {
 
 // start a connection
 const Whats_Bot_MD = async () => {
-  const { state, saveCreds } = await useMultiFileAuthState(
-    "./session/baileys_auth_info"
-  );
+  const { state, saveCreds } = await useMultiFileAuthState("./session/baileys_auth_info");
   const { version, isLatest } = await fetchLatestBaileysVersion();
   console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
   let connOptions = {
@@ -81,10 +79,10 @@ const Whats_Bot_MD = async () => {
 
   store.bind(conn.ev);
 
-  conn.ev.on("chats.set", () => console.log("got chats", store.chats.all()));
+  conn.ev.on("chats.set", () => console.log("Got chats: ", store.chats.all()));
 
   conn.ev.on("contacts.set", () =>
-    console.log("got contacts", Object.values(store.contacts))
+    console.log("Got contacts: ", Object.values(store.contacts))
   );
 
   conn.ev.on("connection.update", async (update) => {
@@ -92,30 +90,32 @@ const Whats_Bot_MD = async () => {
     if (connection === "close") {
       let reason = new Boom(lastDisconnect?.error)?.output.statusCode;
       if (reason === DisconnectReason.badSession) {
-        console.log(`Bad Session File, Please Delete Session and Scan Again`);
+        console.log(
+          `\n 👩‍🦰 Bad Session File, Please Delete Session and Scan Again`
+        );
         conn.logout();
       } else if (reason === DisconnectReason.connectionClosed) {
-        console.log("Connection closed, reconnecting....");
+        console.log("\n 👩‍🦰 Connection closed, reconnecting....");
         Whats_Bot_MD();
       } else if (reason === DisconnectReason.connectionLost) {
-        console.log("Connection Lost from Server, reconnecting...");
+        console.log("\n 👩‍🦰 Connection Lost from Server, reconnecting...");
         Whats_Bot_MD();
       } else if (reason === DisconnectReason.connectionReplaced) {
         console.log(
-          "Connection Replaced, Another New Session Opened, Please Close Current Session First"
+          "\n 👩‍🦰 Connection Replaced, Another New Session Opened, Please Close Current Session First"
         );
         conn.logout();
       } else if (reason === DisconnectReason.loggedOut) {
-        console.log(`Device Logged Out, Please Scan Again And Run.`);
+        console.log(`\n 👩‍🦰 Device Logged Out, Please Scan Again And Run.`);
         process.exit();
       } else if (reason === DisconnectReason.restartRequired) {
-        console.log("Restart Required, Restarting...");
+        console.log("\n 👩‍🦰 Restart Required, Restarting...");
         Whats_Bot_MD();
       } else if (reason === DisconnectReason.timedOut) {
-        console.log("Connection TimedOut, Reconnecting...");
+        console.log("\n 👩‍🦰 Connection TimedOut, Reconnecting...");
         Whats_Bot_MD();
       } else {
-        console.log("Connection closed. You are logged out.");
+        console.log("\n 👩‍🦰 Connection closed. You are logged out.");
         process.exit();
       }
     } else if (connection === "connecting") {
