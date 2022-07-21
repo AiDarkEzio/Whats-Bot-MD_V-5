@@ -93,7 +93,11 @@ ezio.addCommand(
             image: { url: avatar_url },
             caption: msg + "\n" + ezio.jsonConfig.footer,
           },
-          { quoted: message, detectLinks: true }
+          {
+            quoted: message,
+            detectLinks: true,
+            contextInfo: { forwardingScore: 2, isForwarded: true },
+          }
         );
         global.catchError = false;
       })
