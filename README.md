@@ -1,4 +1,4 @@
-# Whats-Bot-MD_V5
+# Whats-Bot
 
 > This is WhatsApp Bot Using Lib Baileys.
 
@@ -7,6 +7,10 @@
 <p align="center">
     <img src="https://raw.githubusercontent.com/AiDarkEzio/Whats-Bot/master/GojoMedia/D_E-DPC.jpg" alt="ADE" width="350" high="350"/>
 </p>
+
+# Whats-Bot-MD_V5
+
+[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=AiDarkEzio&repo=Whats-Bot-MD_V-5&theme=nightowl)](https://github.com/AiDarkEzio/Whats-Bot-MD_V-5)
 
 ## Thanks To
 
